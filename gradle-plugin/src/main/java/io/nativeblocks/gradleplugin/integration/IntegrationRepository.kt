@@ -7,11 +7,14 @@ import io.nativeblocks.gradleplugin.GlobalState
 import io.nativeblocks.gradleplugin.network.AuthorizationInterceptor
 import io.nativeblocks.gradleplugin.network.NetworkRequestExecutor
 import io.nativeblocks.gradleplugin.network.execute
+import io.nativeblocks.network.SyncIntegrationDataMutation
 import io.nativeblocks.network.SyncIntegrationEventsMutation
 import io.nativeblocks.network.SyncIntegrationMutation
 import io.nativeblocks.network.SyncIntegrationPropertiesMutation
+import io.nativeblocks.network.type.IntegrationDataInput
 import io.nativeblocks.network.type.IntegrationEventInput
 import io.nativeblocks.network.type.IntegrationPropertyInput
+import io.nativeblocks.network.type.SyncIntegrationDataInput
 import io.nativeblocks.network.type.SyncIntegrationEventsInput
 import io.nativeblocks.network.type.SyncIntegrationInput
 import io.nativeblocks.network.type.SyncIntegrationPropertiesInput
@@ -121,7 +124,7 @@ class IntegrationRepository {
 
                     meta.propertiesJson?.let { syncProperties(id, name, it) }
                     meta.eventsJson?.let { syncEvents(id, name, it) }
-
+                    meta.dataJson?.let { syncData(id, name, it) }
                 }
             }, { error ->
                 throw GradleException("The ${meta.integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty()} failed to upload because: ${error.message}")
@@ -176,6 +179,34 @@ class IntegrationRepository {
                         IntegrationEventInput(
                             event = event.jsonObject["event"]?.jsonPrimitive?.content.orEmpty(),
                             description = event.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
+                        )
+                    }
+                )
+            )
+        )
+        runBlocking {
+            networkRequestExecutor.requestExecutor(request).execute({ _ ->
+            }, { error ->
+                throw GradleException("The $integrationName failed to upload because: ${error.message}")
+            })
+        }
+    }
+
+    private suspend fun syncData(
+        integrationId: String,
+        integrationName: String,
+        dataJson: JsonElement,
+    ) {
+        val request = apolloClient.mutation(
+            SyncIntegrationDataMutation(
+                input = SyncIntegrationDataInput(
+                    integrationId = integrationId,
+                    organizationId = GlobalState.organizationId.orEmpty(),
+                    data = dataJson.jsonArray.map { dataItem ->
+                        IntegrationDataInput(
+                            key = dataItem.jsonObject["key"]?.jsonPrimitive?.content.orEmpty(),
+                            type = dataItem.jsonObject["type"]?.jsonPrimitive?.content.orEmpty(),
+                            description = dataItem.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
                         )
                     }
                 )
