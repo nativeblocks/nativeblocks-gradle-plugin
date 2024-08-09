@@ -1,0 +1,1504 @@
+type ActionResult {
+    id: String
+
+    key: String
+
+    event: String
+
+    triggers: [ActionTriggerResult]
+}
+
+input ActionTriggerDataInput {
+    key: String!
+
+    value: String!
+}
+
+type ActionTriggerDataResult {
+    id: String
+
+    key: String
+
+    value: String
+
+    type: String
+}
+
+type ActionTriggerEventResult {
+    id: String
+
+    event: String
+}
+
+input ActionTriggerPropertiesInput {
+    key: String!
+
+    value: String!
+}
+
+type ActionTriggerPropertyResult {
+    id: String
+
+    key: String
+
+    value: String
+
+    type: String
+
+    description: String
+
+    valuePicker: String
+
+    valuePickerGroup: String
+
+    valuePickerOptions: String
+}
+
+type ActionTriggerResult {
+    id: String
+
+    name: String
+
+    parentId: String
+
+    keyType: String!
+
+    then: String!
+
+    properties: [ActionTriggerPropertyResult]
+
+    events: [ActionTriggerEventResult]
+
+    data: [ActionTriggerDataResult]
+
+    integrationVersion: Int
+}
+
+input AddActionInput {
+    frameId: String!
+
+    key: String!
+
+    event: String!
+}
+
+input AddActionTriggerInput {
+    name: String!
+
+    parentId: String!
+
+    then: String!
+
+    frameId: String!
+
+    actionId: String!
+
+    integrationId: String!
+}
+
+input AddBlockInput {
+    parentId: String!
+
+    key: String!
+
+    visibilityKey: String!
+
+    position: Int!
+
+    slot: String!
+
+    frameId: String!
+
+    integrationId: String!
+}
+
+input AddFrameInput {
+    name: String!
+
+    type: String!
+
+    route: String!
+
+    isStarter: Boolean!
+
+    routeArguments: [FrameNavigationArgumentInput]
+}
+
+input AddIntegrationInput {
+    name: String!
+
+    keyType: String!
+
+    imageIcon: String
+
+    price: Int!
+
+    description: String
+
+    documentation: String
+
+    platformSupport: String!
+
+    public: Boolean!
+
+    kind: String!
+
+    organizationId: String!
+}
+
+input AddLanguageInput {
+    code: String!
+}
+
+input AddLocalizationInput {
+    key: String!
+}
+
+input AddVariableInput {
+    frameId: String!
+
+    key: String!
+
+    value: String!
+
+    type: String!
+}
+
+type AvailableLanguageResult {
+    id: String
+
+    code: String
+
+    name: String
+}
+
+type BillingProductResult {
+    name: String
+
+    productKey: String
+
+    priceId: String
+
+    priceAmount: Int
+
+    currency: String
+
+    quantity: Int
+}
+
+type BillingSubscriptionPackageResult {
+    id: String
+
+    subscriptions: [BillingSubscriptionResult]
+}
+
+type BillingSubscriptionResult {
+    id: String
+
+    product: BillingProductResult
+
+    quantity: Int
+}
+
+input BlockDataInput {
+    key: String!
+
+    value: String
+}
+
+type BlockDataResult {
+    id: String
+
+    key: String
+
+    value: String
+
+    type: String
+
+    description: String
+}
+
+type BlockEventResult {
+    id: String
+
+    event: String
+
+    description: String
+}
+
+input BlockPropertiesInput {
+    key: String!
+
+    valueMobile: String
+
+    valueTablet: String
+
+    valueDesktop: String
+}
+
+type BlockPropertyResult {
+    id: String
+
+    key: String
+
+    valueMobile: String
+
+    valueTablet: String
+
+    valueDesktop: String
+
+    type: String
+
+    description: String
+
+    valuePicker: String
+
+    valuePickerGroup: String
+
+    valuePickerOptions: String
+}
+
+type BlockResult {
+    id: String
+
+    parentId: String
+
+    keyType: String
+
+    key: String
+
+    visibilityKey: String
+
+    slot: String
+
+    position: Int
+
+    data: [BlockDataResult]
+
+    properties: [BlockPropertyResult]
+
+    events: [BlockEventResult]
+
+    slots: [BlockSlotResult]
+
+    integrationVersion: Int
+}
+
+type BlockSlotResult {
+    id: String
+
+    slot: String
+
+    description: String
+}
+
+"""
+Built-in Boolean
+"""
+scalar Boolean
+
+input CreateOrganizationInput {
+    name: String!
+}
+
+input CreateProjectInput {
+    name: String!
+
+    platform: String!
+
+    organizationId: String!
+}
+
+input DeleteActionInput {
+    frameId: String!
+
+    actionId: String!
+}
+
+input DeleteActionTriggerInput {
+    frameId: String!
+
+    actionId: String!
+
+    actionTriggerId: String!
+}
+
+input DeleteBlockInput {
+    frameId: String!
+
+    blockId: String!
+}
+
+input DeleteFrameInput {
+    route: String!
+}
+
+input DeleteIntegrationInput {
+    integrationId: String!
+
+    projectId: String!
+
+    organizationId: String!
+}
+
+input DeleteLocalizationInput {
+    key: String!
+}
+
+input DeleteOrganizationInput {
+    id: String!
+}
+
+input DeleteProjectInput {
+    id: String!
+
+    organizationId: String!
+}
+
+input DeleteVariableInput {
+    frameId: String!
+
+    key: String!
+}
+
+input DuplicateBlockInput {
+    originBlockId: String!
+
+    key: String!
+
+    visibilityKey: String!
+
+    frameId: String!
+}
+
+type FrameChecksumResult {
+    id: String
+
+    checksum: String
+
+    name: String
+
+    route: String
+}
+
+input FrameNavigationArgumentInput {
+    name: String
+}
+
+type FrameNavigationArgumentResult {
+    name: String
+}
+
+type FrameResult {
+    project: ProjectResult
+
+    id: String
+
+    checksum: String
+
+    name: String
+
+    type: String
+
+    route: String
+
+    isStarter: Boolean
+
+    routeArguments: [FrameNavigationArgumentResult]
+
+    variables: [VariableResult]
+
+    blocks: [BlockResult]
+
+    actions: [ActionResult]
+}
+
+type FrameTypeResult {
+    id: String
+
+    text: String
+
+    isStarter: Boolean
+}
+
+input InstallIntegrationInput {
+    integrationId: String!
+
+    projectId: String!
+
+    organizationId: String!
+}
+
+"""
+Built-in Int
+"""
+scalar Int
+
+input IntegrationDataInput {
+    key: String!
+
+    type: String!
+
+    description: String!
+}
+
+type IntegrationDataResult {
+    id: String
+
+    key: String
+
+    type: String
+
+    description: String
+}
+
+input IntegrationEventInput {
+    event: String!
+
+    description: String!
+}
+
+type IntegrationEventResult {
+    id: String
+
+    event: String
+
+    description: String
+}
+
+type IntegrationProjectResult {
+    id: String
+
+    projectId: String
+
+    integrationId: String
+
+    integrationName: String
+
+    integrationDescription: String
+
+    integrationKeyType: String
+
+    integrationPlatformSupport: String
+
+    integrationKind: String
+
+    integrationImageIcon: String
+
+    integrationPrice: Int
+
+    integrationVersion: Int
+
+    integrationDocumentation: String
+
+    integrationPublic: Boolean
+
+    integrationPaymentRequire: Boolean
+
+    integrationProperties: [IntegrationPropertyResult]
+
+    integrationEvents: [IntegrationEventResult]
+
+    integrationData: [IntegrationDataResult]
+
+    integrationSlots: [IntegrationSlotResult]
+
+    integrationOrganizationId: String
+
+    hasUpdate: Boolean
+}
+
+input IntegrationPropertyInput {
+    key: String!
+
+    value: String
+
+    type: String!
+
+    description: String!
+
+    valuePicker: String!
+
+    valuePickerGroup: String!
+
+    valuePickerOptions: String!
+}
+
+type IntegrationPropertyResult {
+    id: String
+
+    key: String
+
+    value: String
+
+    type: String
+
+    description: String
+
+    valuePicker: String
+
+    valuePickerGroup: String
+
+    valuePickerOptions: String
+}
+
+type IntegrationResult {
+    id: String
+
+    name: String
+
+    keyType: String
+
+    imageIcon: String
+
+    price: Int
+
+    version: Int
+
+    description: String
+
+    documentation: String
+
+    platformSupport: String
+
+    kind: String
+
+    public: Boolean
+
+    paymentRequire: Boolean
+
+    manageable: Boolean
+
+    properties: [IntegrationPropertyResult]
+
+    events: [IntegrationEventResult]
+
+    data: [IntegrationDataResult]
+
+    slots: [IntegrationSlotResult]
+}
+
+type IntegrationSlotResult {
+    id: String
+
+    slot: String
+
+    description: String
+}
+
+input IntegrationSlotsInput {
+    slot: String!
+
+    description: String!
+}
+
+type LanguageResult {
+    id: String
+
+    code: String
+
+    name: String
+
+    projectId: String
+}
+
+type LocalizationResult {
+    id: String
+
+    key: String
+
+    value: String
+
+    languageCode: String
+
+    languageName: String
+
+    projectId: String
+}
+
+type LoginResult {
+    id: String
+
+    username: String
+
+    email: String
+
+    accessToken: String
+
+    refreshToken: String
+}
+
+type MediaIconResult {
+    url: String
+}
+
+type Mutation {
+    """
+    greeting
+    """
+    greeting(name: String!): String
+
+    """
+    auth
+    """
+    authRegister(email: String!, password: String!): UserResult
+
+    authLogin(email: String!, password: String!): LoginResult
+
+    authLoginWithGoogle(idToken: String!): LoginResult
+
+    authRefreshToken(refreshToken: String!): LoginResult
+
+    """
+    organization
+    """
+    createOrganization(input: CreateOrganizationInput!): OrganizationResult
+
+    updateOrganization(input: UpdateOrganizationInput!): OrganizationResult
+
+    deleteOrganization(input: DeleteOrganizationInput!): OrganizationResult
+
+    addOrganizationContributor(input: OrganizationContributorInput!): OrganizationResult
+
+    deleteOrganizationContributor(input: OrganizationContributorInput!): OrganizationResult
+
+    """
+    project
+    """
+    createProject(input: CreateProjectInput!): ProjectResult
+
+    updateProject(input: UpdateProjectInput!): ProjectResult
+
+    deleteProject(input: DeleteProjectInput!): ProjectResult
+
+    generateProjectApiKey(input: ProjectApiKeyInput!): ProjectApiKeyResult
+
+    """
+    frame
+    """
+    addFrame(input: AddFrameInput!): FrameResult
+
+    updateFrame(input: UpdateFrameInput!): FrameResult
+
+    deleteFrame(input: DeleteFrameInput!): FrameResult
+
+    publishFrame(input: PublishFrameInput!): FrameResult
+
+    """
+    block
+    """
+    addBlock(input: AddBlockInput!): BlockResult
+
+    duplicateBlock(input: DuplicateBlockInput!): BlockResult
+
+    updateBlockKey(input: UpdateBlockKeyInput!): BlockResult
+
+    upgradeBlock(input: UpgradeBlockInput!): BlockResult
+
+    deleteBlock(input: DeleteBlockInput!): BlockResult
+
+    updateBlockPosition(input: UpdateBlockPositionInput!): BlockResult
+
+    updateBlockProperties(input: UpdateBlockPropertiesInput!): BlockResult
+
+    updateBlockData(input: UpdateBlockDataInput!): BlockResult
+
+    """
+    variable
+    """
+    addVariable(input: AddVariableInput!): VariableResult
+
+    updateVariable(input: UpdateVariableInput!): VariableResult
+
+    deleteVariable(input: DeleteVariableInput!): VariableResult
+
+    """
+    action
+    """
+    addAction(input: AddActionInput!): ActionResult
+
+    deleteAction(input: DeleteActionInput!): ActionResult
+
+    """
+    actionTrigger
+    """
+    addActionTrigger(input: AddActionTriggerInput!): ActionTriggerResult
+
+    upgradeActionTrigger(input: UpgradeActionTriggerInput!): ActionTriggerResult
+
+    deleteActionTrigger(input: DeleteActionTriggerInput!): ActionTriggerResult
+
+    updateActionTriggerProperties(input: UpdateActionTriggerPropertiesInput!): ActionTriggerResult
+
+    updateActionTriggerData(input: UpdateActionTriggerDataInput!): ActionTriggerResult
+
+    updateActionTriggerPosition(input: UpdateActionTriggerPositionInput!): ActionTriggerResult
+
+    updateActionTriggerName(input: UpdateActionTriggerNameInput!): ActionTriggerResult
+
+    """
+    integration
+    """
+    createIntegration(input: AddIntegrationInput!): IntegrationResult
+
+    updateIntegration(input: UpdateIntegrationInput!): IntegrationResult
+
+    syncIntegration(input: SyncIntegrationInput!): IntegrationResult
+
+    """
+    integration meta
+    """
+    syncIntegrationProperties(input: SyncIntegrationPropertiesInput!): [IntegrationPropertyResult]
+
+    syncIntegrationEvents(input: SyncIntegrationEventsInput!): [IntegrationEventResult]
+
+    syncIntegrationData(input: SyncIntegrationDataInput!): [IntegrationDataResult]
+
+    syncIntegrationSlots(input: SyncIntegrationSlotsInput!): [IntegrationSlotResult]
+
+    """
+    integration installation
+    """
+    installIntegration(input: InstallIntegrationInput!): IntegrationProjectResult
+
+    upgradeIntegration(input: UpgradeIntegrationInput!): IntegrationProjectResult
+
+    unInstallIntegration(input: UnInstallIntegrationInput!): IntegrationProjectResult
+
+    """
+    localization
+    """
+    addLanguage(input: AddLanguageInput!): LanguageResult
+
+    addLocalization(input: AddLocalizationInput!): [LocalizationResult]
+
+    deleteLocalization(input: DeleteLocalizationInput!): LocalizationResult
+
+    updateLocalization(input: UpdateLocalizationInput!): LocalizationResult
+
+    publishLocalization: [LocalizationResult]
+}
+
+input OrganizationContributorInput {
+    organizationId: String!
+
+    contributorEmail: String!
+}
+
+type OrganizationContributorResult {
+    id: String
+
+    role: String
+
+    user: UserResult
+}
+
+type OrganizationResult {
+    id: String
+
+    name: String
+
+    manageable: Boolean
+
+    seatCount: Int
+
+    contributors: [OrganizationContributorResult]
+}
+
+input ProjectApiKeyInput {
+    key: String!
+
+    secret: String!
+}
+
+type ProjectApiKeyResult {
+    projectName: String
+
+    accessToken: String
+}
+
+type ProjectResult {
+    id: String
+
+    name: String
+
+    key: String
+
+    secret: String
+
+    platform: String
+
+    apiKey: String
+
+    organization: OrganizationResult
+}
+
+input PublishFrameInput {
+    route: String!
+}
+
+type Query {
+    """
+    ping
+    """
+    ping: String
+
+    """
+    user
+    """
+    user: UserResult
+
+    """
+    organization
+    """
+    organizations: [OrganizationResult]
+
+    """
+    billing
+    """
+    billingSubscriptionPackage(organizationId: String!): BillingSubscriptionPackageResult
+
+    billingPortalSession(organizationId: String!): String
+
+    """
+    project
+    """
+    project(id: String!): ProjectResult
+
+    projects(organizationId: String!): [ProjectResult]
+
+    projectAssets: [MediaIconResult]
+
+    """
+    frame
+    """
+    scaffold: ScaffoldResult
+
+    frame(route: String!): FrameResult
+
+    frameProduction(route: String!): FrameResult
+
+    frameProductionChecksum(route: String!): FrameChecksumResult
+
+    frameById(frameId: String!): FrameResult
+
+    frameTypes(platform: String!): [FrameTypeResult]
+
+    """
+    block
+    """
+    blockById(frameId: String!, blockId: String!): BlockResult
+
+    blockByKey(frameId: String!, blockKey: String!): BlockResult
+
+    blocks(frameId: String!): [BlockResult]
+
+    """
+    variable
+    """
+    variables(frameId: String!): [VariableResult]
+
+    """
+    action
+    """
+    actions(frameId: String!): [ActionResult]
+
+    actionTriggerById(frameId: String!, actionId: String!, actionTriggerId: String!): ActionTriggerResult
+
+    """
+    integration
+    """
+    integration(integrationId: String!, organizationId: String!): IntegrationResult
+
+    integrations(organizationId: String!, kind: String!, platformSupport: String!, page: Int!, limit: Int!): [IntegrationResult]
+
+    integrationProperties(integrationId: String!, organizationId: String!): [IntegrationPropertyResult]
+
+    integrationEvents(integrationId: String!, organizationId: String!): [IntegrationEventResult]
+
+    integrationData(integrationId: String!, organizationId: String!): [IntegrationDataResult]
+
+    integrationSlots(integrationId: String!, organizationId: String!): [IntegrationSlotResult]
+
+    """
+    integration installation
+    """
+    integrationCheckInstallation(integrationId: String!, projectId: String!, organizationId: String!): IntegrationProjectResult
+
+    integrationsInstalled(projectId: String!, organizationId: String!, kind: String!): [IntegrationProjectResult]
+
+    publicIcons(groupName: String!): [MediaIconResult]
+
+    """
+    localization
+    """
+    localizations(languageCode: String): [LocalizationResult]
+
+    localization(languageCode: String!, key: String!): LocalizationResult
+
+    localizationsProduction(languageCode: String): [LocalizationResult]
+
+    localizationProduction(languageCode: String!, key: String): LocalizationResult
+
+    languages: [LanguageResult]
+
+    availableLanguages: [AvailableLanguageResult]
+}
+
+type ScaffoldResult {
+    project: ProjectResult
+
+    frames: [FrameResult]
+}
+
+"""
+Built-in String
+"""
+scalar String
+
+input SyncIntegrationDataInput {
+    integrationId: String!
+
+    organizationId: String!
+
+    data: [IntegrationDataInput]!
+}
+
+input SyncIntegrationEventsInput {
+    integrationId: String!
+
+    organizationId: String!
+
+    events: [IntegrationEventInput]!
+}
+
+input SyncIntegrationInput {
+    name: String!
+
+    keyType: String!
+
+    imageIcon: String
+
+    price: Int!
+
+    description: String
+
+    documentation: String
+
+    platformSupport: String!
+
+    public: Boolean!
+
+    kind: String!
+
+    organizationId: String!
+}
+
+input SyncIntegrationPropertiesInput {
+    integrationId: String!
+
+    organizationId: String!
+
+    properties: [IntegrationPropertyInput]!
+}
+
+input SyncIntegrationSlotsInput {
+    integrationId: String!
+
+    organizationId: String!
+
+    slots: [IntegrationSlotsInput]!
+}
+
+input UnInstallIntegrationInput {
+    integrationId: String!
+
+    projectId: String!
+
+    organizationId: String!
+}
+
+input UpdateActionTriggerDataInput {
+    frameId: String!
+
+    actionId: String!
+
+    actionTriggerId: String!
+
+    data: [ActionTriggerDataInput]!
+}
+
+input UpdateActionTriggerNameInput {
+    frameId: String!
+
+    actionId: String!
+
+    actionTriggerId: String!
+
+    name: String!
+}
+
+input UpdateActionTriggerPositionInput {
+    frameId: String!
+
+    actionId: String!
+
+    actionTriggerId: String!
+
+    parentId: String!
+
+    then: String!
+}
+
+input UpdateActionTriggerPropertiesInput {
+    frameId: String!
+
+    actionId: String!
+
+    actionTriggerId: String!
+
+    properties: [ActionTriggerPropertiesInput]!
+}
+
+input UpdateBlockDataInput {
+    frameId: String!
+
+    blockId: String!
+
+    data: [BlockDataInput]!
+}
+
+input UpdateBlockKeyInput {
+    blockId: String!
+
+    key: String!
+
+    visibilityKey: String!
+
+    frameId: String!
+}
+
+input UpdateBlockPositionInput {
+    frameId: String!
+
+    blockId: String!
+
+    parentId: String!
+
+    slot: String!
+
+    position: Int!
+}
+
+input UpdateBlockPropertiesInput {
+    frameId: String!
+
+    blockId: String!
+
+    properties: [BlockPropertiesInput]!
+}
+
+input UpdateFrameInput {
+    id: String!
+
+    name: String!
+
+    type: String!
+
+    route: String!
+
+    isStarter: Boolean!
+
+    routeArguments: [FrameNavigationArgumentInput]
+}
+
+input UpdateIntegrationInput {
+    id: String!
+
+    name: String!
+
+    keyType: String!
+
+    imageIcon: String
+
+    price: Int!
+
+    description: String
+
+    documentation: String
+
+    platformSupport: String!
+
+    public: Boolean!
+
+    kind: String!
+
+    organizationId: String!
+}
+
+input UpdateLocalizationInput {
+    key: String!
+
+    languageCode: String!
+
+    value: String!
+}
+
+input UpdateOrganizationInput {
+    id: String!
+
+    name: String!
+}
+
+input UpdateProjectInput {
+    id: String!
+
+    name: String!
+
+    organizationId: String!
+}
+
+input UpdateVariableInput {
+    frameId: String!
+
+    id: String!
+
+    key: String!
+
+    value: String!
+
+    type: String!
+}
+
+input UpgradeActionTriggerInput {
+    frameId: String!
+
+    actionId: String!
+
+    integrationId: String!
+
+    actionTriggerId: String!
+}
+
+input UpgradeBlockInput {
+    frameId: String!
+
+    integrationId: String!
+
+    blockId: String!
+}
+
+input UpgradeIntegrationInput {
+    integrationId: String!
+
+    projectId: String!
+
+    organizationId: String!
+}
+
+type UserResult {
+    id: String
+
+    username: String
+
+    email: String
+}
+
+type VariableResult {
+    id: String
+
+    key: String
+
+    value: String
+
+    type: String
+}
+
+type __Directive {
+    """
+    The __Directive type represents a Directive that a server supports.
+    """
+    name: String!
+
+    description: String
+
+    isRepeatable: Boolean!
+
+    locations: [__DirectiveLocation!]!
+
+    args(includeDeprecated: Boolean = false): [__InputValue!]!
+}
+
+"""
+An enum describing valid locations where a directive can be placed
+"""
+enum __DirectiveLocation {
+    """
+    Indicates the directive is valid on queries.
+    """
+    QUERY
+
+    """
+    Indicates the directive is valid on mutations.
+    """
+    MUTATION
+
+    """
+    Indicates the directive is valid on subscriptions.
+    """
+    SUBSCRIPTION
+
+    """
+    Indicates the directive is valid on fields.
+    """
+    FIELD
+
+    """
+    Indicates the directive is valid on fragment definitions.
+    """
+    FRAGMENT_DEFINITION
+
+    """
+    Indicates the directive is valid on fragment spreads.
+    """
+    FRAGMENT_SPREAD
+
+    """
+    Indicates the directive is valid on inline fragments.
+    """
+    INLINE_FRAGMENT
+
+    """
+    Indicates the directive is valid on variable definitions.
+    """
+    VARIABLE_DEFINITION
+
+    """
+    Indicates the directive is valid on a schema SDL definition.
+    """
+    SCHEMA
+
+    """
+    Indicates the directive is valid on a scalar SDL definition.
+    """
+    SCALAR
+
+    """
+    Indicates the directive is valid on an object SDL definition.
+    """
+    OBJECT
+
+    """
+    Indicates the directive is valid on a field SDL definition.
+    """
+    FIELD_DEFINITION
+
+    """
+    Indicates the directive is valid on a field argument SDL definition.
+    """
+    ARGUMENT_DEFINITION
+
+    """
+    Indicates the directive is valid on an interface SDL definition.
+    """
+    INTERFACE
+
+    """
+    Indicates the directive is valid on an union SDL definition.
+    """
+    UNION
+
+    """
+    Indicates the directive is valid on an enum SDL definition.
+    """
+    ENUM
+
+    """
+    Indicates the directive is valid on an enum value SDL definition.
+    """
+    ENUM_VALUE
+
+    """
+    Indicates the directive is valid on an input object SDL definition.
+    """
+    INPUT_OBJECT
+
+    """
+    Indicates the directive is valid on an input object field SDL definition.
+    """
+    INPUT_FIELD_DEFINITION
+}
+
+type __EnumValue {
+    name: String!
+
+    description: String
+
+    isDeprecated: Boolean!
+
+    deprecationReason: String
+}
+
+type __Field {
+    name: String!
+
+    description: String
+
+    args(includeDeprecated: Boolean = false): [__InputValue!]!
+
+    type: __Type!
+
+    isDeprecated: Boolean!
+
+    deprecationReason: String
+}
+
+type __InputValue {
+    name: String!
+
+    description: String
+
+    type: __Type!
+
+    defaultValue: String
+
+    isDeprecated: Boolean
+
+    deprecationReason: String
+}
+
+"""
+A GraphQL Introspection defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, the entry points for query, mutation, and subscription operations.
+"""
+type __Schema {
+    description: String
+
+    """
+    A list of all types supported by this server.
+    """
+    types: [__Type!]!
+
+    """
+    The type that query operations will be rooted at.
+    """
+    queryType: __Type!
+
+    """
+    If this server supports mutation, the type that mutation operations will be rooted at.
+    """
+    mutationType: __Type
+
+    """
+    'A list of all directives supported by this server.
+    """
+    directives: [__Directive!]!
+
+    """
+    'If this server support subscription, the type that subscription operations will be rooted at.
+    """
+    subscriptionType: __Type
+}
+
+type __Type {
+    kind: __TypeKind!
+
+    name: String
+
+    description: String
+
+    fields(includeDeprecated: Boolean = false): [__Field!]
+
+    interfaces: [__Type!]
+
+    possibleTypes: [__Type!]
+
+    enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
+
+    inputFields(includeDeprecated: Boolean = false): [__InputValue!]
+
+    ofType: __Type
+
+    """
+    This field is considered experimental because it has not yet been ratified in the graphql specification
+    """
+    isOneOf: Boolean
+
+    specifiedByURL: String
+
+    specifiedByUrl: String @deprecated(reason: "This legacy name has been replaced by `specifiedByURL`")
+}
+
+"""
+An enum describing what kind of type a given __Type is
+"""
+enum __TypeKind {
+    """
+    Indicates this type is a scalar. 'specifiedByURL' is a valid field
+    """
+    SCALAR
+
+    """
+    Indicates this type is an object. `fields` and `interfaces` are valid fields.
+    """
+    OBJECT
+
+    """
+    Indicates this type is an interface. `fields` and `possibleTypes` are valid fields.
+    """
+    INTERFACE
+
+    """
+    Indicates this type is a union. `possibleTypes` is a valid field.
+    """
+    UNION
+
+    """
+    Indicates this type is an enum. `enumValues` is a valid field.
+    """
+    ENUM
+
+    """
+    Indicates this type is an input object. `inputFields` is a valid field.
+    """
+    INPUT_OBJECT
+
+    """
+    Indicates this type is a list. `ofType` is a valid field.
+    """
+    LIST
+
+    """
+    Indicates this type is a non-null. `ofType` is a valid field.
+    """
+    NON_NULL
+}
+
+"""
+Directs the executor to include this field or fragment only when the `if` argument is true
+"""
+directive @include ("Included when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Directs the executor to skip this field or fragment when the `if` argument is true.
+"""
+directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Marks the field, argument, input field or enum value as deprecated
+"""
+directive @deprecated ("The reason for the deprecation" reason: String = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|ENUM_VALUE|INPUT_FIELD_DEFINITION
+
+"""
+Exposes a URL that specifies the behaviour of this scalar.
+"""
+directive @specifiedBy ("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
+
+"""
+Indicates an Input Object is a OneOf Input Object.
+"""
+directive @oneOf on INPUT_OBJECT
+
+schema {
+    query: Query
+    mutation: Mutation
+}

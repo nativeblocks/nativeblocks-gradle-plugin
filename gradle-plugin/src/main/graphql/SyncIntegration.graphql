@@ -1,0 +1,14 @@
+mutation syncIntegration($input: SyncIntegrationInput!) {
+    syncIntegration(input: $input) {
+        id
+        keyType
+        name
+        imageIcon
+        price
+        description
+        platformSupport
+        kind
+        public
+        documentation
+    }
+}
