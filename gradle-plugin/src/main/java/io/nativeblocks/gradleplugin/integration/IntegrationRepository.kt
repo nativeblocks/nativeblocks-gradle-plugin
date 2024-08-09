@@ -11,13 +11,16 @@ import io.nativeblocks.network.SyncIntegrationDataMutation
 import io.nativeblocks.network.SyncIntegrationEventsMutation
 import io.nativeblocks.network.SyncIntegrationMutation
 import io.nativeblocks.network.SyncIntegrationPropertiesMutation
+import io.nativeblocks.network.SyncIntegrationSlotsMutation
 import io.nativeblocks.network.type.IntegrationDataInput
 import io.nativeblocks.network.type.IntegrationEventInput
 import io.nativeblocks.network.type.IntegrationPropertyInput
+import io.nativeblocks.network.type.IntegrationSlotsInput
 import io.nativeblocks.network.type.SyncIntegrationDataInput
 import io.nativeblocks.network.type.SyncIntegrationEventsInput
 import io.nativeblocks.network.type.SyncIntegrationInput
 import io.nativeblocks.network.type.SyncIntegrationPropertiesInput
+import io.nativeblocks.network.type.SyncIntegrationSlotsInput
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -125,6 +128,7 @@ class IntegrationRepository {
                     meta.propertiesJson?.let { syncProperties(id, name, it) }
                     meta.eventsJson?.let { syncEvents(id, name, it) }
                     meta.dataJson?.let { syncData(id, name, it) }
+                    meta.slotsJson?.let { syncSlots(id, name, it) }
                 }
             }, { error ->
                 throw GradleException("The ${meta.integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty()} failed to upload because: ${error.message}")
@@ -220,4 +224,30 @@ class IntegrationRepository {
         }
     }
 
+    private suspend fun syncSlots(
+        integrationId: String,
+        integrationName: String,
+        slotsJson: JsonElement,
+    ) {
+        val request = apolloClient.mutation(
+            SyncIntegrationSlotsMutation(
+                input = SyncIntegrationSlotsInput(
+                    integrationId = integrationId,
+                    organizationId = GlobalState.organizationId.orEmpty(),
+                    slots = slotsJson.jsonArray.map { slot ->
+                        IntegrationSlotsInput(
+                            slot = slot.jsonObject["slot"]?.jsonPrimitive?.content.orEmpty(),
+                            description = slot.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
+                        )
+                    }
+                )
+            )
+        )
+        runBlocking {
+            networkRequestExecutor.requestExecutor(request).execute({ _ ->
+            }, { error ->
+                throw GradleException("The $integrationName failed to upload because: ${error.message}")
+            })
+        }
+    }
 }
