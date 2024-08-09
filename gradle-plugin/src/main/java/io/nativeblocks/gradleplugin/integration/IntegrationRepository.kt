@@ -7,9 +7,12 @@ import io.nativeblocks.gradleplugin.GlobalState
 import io.nativeblocks.gradleplugin.network.AuthorizationInterceptor
 import io.nativeblocks.gradleplugin.network.NetworkRequestExecutor
 import io.nativeblocks.gradleplugin.network.execute
+import io.nativeblocks.network.SyncIntegrationEventsMutation
 import io.nativeblocks.network.SyncIntegrationMutation
 import io.nativeblocks.network.SyncIntegrationPropertiesMutation
+import io.nativeblocks.network.type.IntegrationEventInput
 import io.nativeblocks.network.type.IntegrationPropertyInput
+import io.nativeblocks.network.type.SyncIntegrationEventsInput
 import io.nativeblocks.network.type.SyncIntegrationInput
 import io.nativeblocks.network.type.SyncIntegrationPropertiesInput
 import kotlinx.coroutines.runBlocking
@@ -117,6 +120,8 @@ class IntegrationRepository {
                     val name = res?.syncIntegration?.name.orEmpty()
 
                     meta.propertiesJson?.let { syncProperties(id, name, it) }
+                    meta.eventsJson?.let { syncEvents(id, name, it) }
+
                 }
             }, { error ->
                 throw GradleException("The ${meta.integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty()} failed to upload because: ${error.message}")
@@ -156,4 +161,32 @@ class IntegrationRepository {
             })
         }
     }
+
+    private suspend fun syncEvents(
+        integrationId: String,
+        integrationName: String,
+        eventsJson: JsonElement,
+    ) {
+        val request = apolloClient.mutation(
+            SyncIntegrationEventsMutation(
+                input = SyncIntegrationEventsInput(
+                    integrationId = integrationId,
+                    organizationId = GlobalState.organizationId.orEmpty(),
+                    events = eventsJson.jsonArray.map { event ->
+                        IntegrationEventInput(
+                            event = event.jsonObject["event"]?.jsonPrimitive?.content.orEmpty(),
+                            description = event.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
+                        )
+                    }
+                )
+            )
+        )
+        runBlocking {
+            networkRequestExecutor.requestExecutor(request).execute({ _ ->
+            }, { error ->
+                throw GradleException("The $integrationName failed to upload because: ${error.message}")
+            })
+        }
+    }
+
 }
