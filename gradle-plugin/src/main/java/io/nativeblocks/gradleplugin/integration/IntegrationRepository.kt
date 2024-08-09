@@ -8,11 +8,16 @@ import io.nativeblocks.gradleplugin.network.AuthorizationInterceptor
 import io.nativeblocks.gradleplugin.network.NetworkRequestExecutor
 import io.nativeblocks.gradleplugin.network.execute
 import io.nativeblocks.network.SyncIntegrationMutation
+import io.nativeblocks.network.SyncIntegrationPropertiesMutation
+import io.nativeblocks.network.type.IntegrationPropertyInput
 import io.nativeblocks.network.type.SyncIntegrationInput
+import io.nativeblocks.network.type.SyncIntegrationPropertiesInput
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.OkHttpClient
@@ -111,10 +116,43 @@ class IntegrationRepository {
                     val id = res?.syncIntegration?.id.orEmpty()
                     val name = res?.syncIntegration?.name.orEmpty()
 
-                    // sync meta
+                    meta.propertiesJson?.let { syncProperties(id, name, it) }
                 }
             }, { error ->
                 throw GradleException("The ${meta.integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty()} failed to upload because: ${error.message}")
+            })
+        }
+    }
+
+
+    private suspend fun syncProperties(
+        integrationId: String,
+        integrationName: String,
+        propertiesJson: JsonElement,
+    ) {
+        val request = apolloClient.mutation(
+            SyncIntegrationPropertiesMutation(
+                input = SyncIntegrationPropertiesInput(
+                    integrationId = integrationId,
+                    organizationId = GlobalState.organizationId.orEmpty(),
+                    properties = propertiesJson.jsonArray.map { property ->
+                        IntegrationPropertyInput(
+                            key = property.jsonObject["key"]?.jsonPrimitive?.content.orEmpty(),
+                            value = Optional.presentIfNotNull(property.jsonObject["value"]?.jsonPrimitive?.content.orEmpty()),
+                            type = property.jsonObject["type"]?.jsonPrimitive?.content.orEmpty(),
+                            description = property.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
+                            valuePicker = property.jsonObject["valuePicker"]?.jsonPrimitive?.content.orEmpty(),
+                            valuePickerGroup = property.jsonObject["valuePickerGroup"]?.jsonPrimitive?.content.orEmpty(),
+                            valuePickerOptions = property.jsonObject["valuePickerOptions"]?.jsonPrimitive?.content.orEmpty()
+                        )
+                    }
+                )
+            )
+        )
+        runBlocking {
+            networkRequestExecutor.requestExecutor(request).execute({ _ ->
+            }, { error ->
+                throw GradleException("The $integrationName failed to upload because: ${error.message}")
             })
         }
     }
