@@ -1,5 +1,7 @@
 package io.nativeblocks.gradleplugin
 
+import io.nativeblocks.gradleplugin.integration.IntegrationRepository
+import kotlinx.coroutines.runBlocking
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -32,6 +34,18 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
                     GlobalState.moduleName.isNullOrEmpty()
                 ) {
                     throw GradleException("Please make sure basePackageName and moduleName has been provided correctly")
+                }
+
+                val integrationRepository = IntegrationRepository()
+                if (GlobalState.integrationType?.find { it == IntegrationType.BLOCK } != null) {
+                    runBlocking {
+                        integrationRepository.syncIntegration(project, "block")
+                    }
+                }
+                if (GlobalState.integrationType?.find { it == IntegrationType.ACTION } != null) {
+                    runBlocking {
+                        integrationRepository.syncIntegration(project, "action")
+                    }
                 }
             }
                 .dependsOn("build")
