@@ -14,7 +14,7 @@ open class NativeblocksExtension {
     var organizationId: String? = null
 
     @Input
-    var integrationType: Array<IntegrationType>? = null
+    var integrationTypes: Array<IntegrationType>? = null
 
     @Input
     var basePackageName: String? = null

@@ -64,7 +64,7 @@ nativeblocks {
     endpoint = nativeblocksProps["endpoint"] as String
     authToken = nativeblocksProps["authToken"] as String
     organizationId = nativeblocksProps["organizationId"] as String
-    integrationType = arrayOf(IntegrationType.BLOCK, IntegrationType.ACTION)
+    integrationTypes = arrayOf(IntegrationType.BLOCK, IntegrationType.ACTION)
     basePackageName = "io.nativeblocks.sampleapp"
     moduleName = "Demo"
 }

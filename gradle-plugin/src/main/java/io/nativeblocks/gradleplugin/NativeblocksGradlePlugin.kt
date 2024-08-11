@@ -19,7 +19,7 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
                 GlobalState.endpoint = extension.endpoint
                 GlobalState.authToken = extension.authToken
                 GlobalState.organizationId = extension.organizationId
-                GlobalState.integrationTypes = extension.integrationType
+                GlobalState.integrationTypes = extension.integrationTypes
                 GlobalState.basePackageName = extension.basePackageName
                 GlobalState.moduleName = extension.moduleName
 
