@@ -17,7 +17,7 @@ private const val NATIVEBLOCKS_API_URL = "https://us.api.nativeblocks.io/graphql
 class MainActivity : ComponentActivity() {
 
     // it can provide with DI
-    private val xBot = XBot()
+    private val aIChatBot = AIChatBot()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         )
 
         DemoBlockProvider.provideBlocks()
-        DemoActionProvider.provideActions(xBot)
+        DemoActionProvider.provideActions(aIChatBot)
 
         setContent {
             NativeblocksFrame(

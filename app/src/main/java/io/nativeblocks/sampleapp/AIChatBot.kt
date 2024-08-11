@@ -7,11 +7,11 @@ import io.nativeblocks.core.type.NativeActionProp
 import io.nativeblocks.core.type.Then
 
 @NativeAction(
-    keyType = "XBOT",
-    name = "X bot",
+    keyType = "AI_CHAT_BOT",
+    name = "AI Chat bot",
     description = "This is a bot"
 )
-class XBot {
+class AIChatBot {
 
     suspend operator fun invoke(
         @NativeActionProp apiKey: String,
