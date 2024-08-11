@@ -13,18 +13,26 @@ plugins {
 }
 ```
 
-Then it needed to provide plugin arguments
+Then it needed to provide plugin arguments,
+Properties belongs to each Studio account, from Nativeblocks Studio, find **Link Device** and copy properties
+
+```properties
+# nativeblocks.properties
+endpoint=
+authToken=
+organizationId=
+```
 
 ```groovy
 def nativeblocksProps = new Properties()
-file("sample.nativeblocks.properties").withInputStream { props.load(it) }
+file("nativeblocks.properties").withInputStream { props.load(it) }
 
 nativeblocks {
     endpoint = nativeblocksProps.getProperty("endpoint").toString()
     authToken = nativeblocksProps.getProperty("authToken").toString()
     organizationId = nativeblocksProps.getProperty("organizationId").toString()
     integrationTypes = [IntegrationType.BLOCK, IntegrationType.ACTION]
-    basePackageName = "io.nativeblocks.sampleapp"
-    moduleName = "Demo"
+    basePackageName = "your.packagename.appname"
+    moduleName = "your_module_name"
 }
 ```
