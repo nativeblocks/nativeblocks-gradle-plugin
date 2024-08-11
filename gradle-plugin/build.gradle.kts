@@ -63,10 +63,10 @@ mavenPublishing {
             }
         }
         scm {
-            connection = "scm:git:github.com/nativeblocks/nativeblocks-android.git"
+            connection = "scm:git:github.com/nativeblocks/gradle-plugin.git"
             developerConnection =
-                "scm:git:ssh://github.com/nativeblocks/nativeblocks-android.git"
-            url = "https://github.com/nativeblocks/nativeblocks-android"
+                "scm:git:ssh://github.com/nativeblocks/gradle-plugin.git"
+            url = "https://github.com/nativeblocks/gradle-plugin"
         }
     }
 }
@@ -83,7 +83,7 @@ dependencies {
 object ModuleInfo {
     const val GROUP_ID = "io.nativeblocks"
     const val ARTIFACT_ID = "nativeblocks-gradle-plugin"
-    const val VERSION = "1.0.0"
+    const val VERSION = "1.0.1"
     const val DESCRIPTION = "Nativeblocks gradle plugin for Android"
     const val URL = "https://nativeblocks.io"
     const val IMPLEMENTATION_CLASS = "io.nativeblocks.gradleplugin.NativeblocksGradlePlugin"

@@ -19,7 +19,7 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
                 GlobalState.endpoint = extension.endpoint
                 GlobalState.authToken = extension.authToken
                 GlobalState.organizationId = extension.organizationId
-                GlobalState.integrationType = extension.integrationType
+                GlobalState.integrationTypes = extension.integrationType
                 GlobalState.basePackageName = extension.basePackageName
                 GlobalState.moduleName = extension.moduleName
 
@@ -37,12 +37,12 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
                 }
 
                 val integrationRepository = IntegrationRepository()
-                if (GlobalState.integrationType?.find { it == IntegrationType.BLOCK } != null) {
+                if (GlobalState.integrationTypes?.find { it == IntegrationType.BLOCK } != null) {
                     runBlocking {
                         integrationRepository.syncIntegration(project, "block")
                     }
                 }
-                if (GlobalState.integrationType?.find { it == IntegrationType.ACTION } != null) {
+                if (GlobalState.integrationTypes?.find { it == IntegrationType.ACTION } != null) {
                     runBlocking {
                         integrationRepository.syncIntegration(project, "action")
                     }

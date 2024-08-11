@@ -136,7 +136,6 @@ class IntegrationRepository {
         }
     }
 
-
     private suspend fun syncProperties(
         integrationId: String,
         integrationName: String,
