@@ -53,5 +53,26 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
                     println("All integrations have been synced with Nativeblocks servers")
                 }
         }
+        project.task("nativeblocksPrepareSchema") { task ->
+            task.doFirst {
+                GlobalState.basePackageName = extension.basePackageName
+                GlobalState.moduleName = extension.moduleName
+
+                if (GlobalState.basePackageName.isNullOrEmpty() ||
+                    GlobalState.moduleName.isNullOrEmpty()
+                ) {
+                    throw GradleException("Please make sure basePackageName and moduleName has been provided correctly")
+                }
+
+                val integrationRepository = IntegrationRepository()
+                runBlocking {
+                    integrationRepository.prepareSchema(project)
+                }
+            }
+                .dependsOn("build")
+                .doLast {
+                    println("All integrations json copied under ${project.rootDir.path + "/.nativeblocks"}")
+                }
+        }
     }
 }

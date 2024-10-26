@@ -24,3 +24,5 @@ sample.nativeblocks.properties
 
 *.gpg
 /*.gpg
+
+.nativeblocks/integrations

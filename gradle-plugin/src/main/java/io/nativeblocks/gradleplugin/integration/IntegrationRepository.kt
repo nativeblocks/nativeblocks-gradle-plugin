@@ -21,7 +21,9 @@ import io.nativeblocks.network.type.SyncIntegrationEventsInput
 import io.nativeblocks.network.type.SyncIntegrationInput
 import io.nativeblocks.network.type.SyncIntegrationPropertiesInput
 import io.nativeblocks.network.type.SyncIntegrationSlotsInput
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.booleanOrNull
@@ -32,6 +34,9 @@ import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.OkHttpClient
 import org.gradle.api.GradleException
 import org.gradle.api.Project
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.util.concurrent.TimeUnit
 
 class IntegrationRepository {
@@ -50,6 +55,39 @@ class IntegrationRepository {
         .build()
 
     private val networkRequestExecutor = NetworkRequestExecutor()
+
+    private fun copyDirectoryToRoot(sourceDirPath: String, projectRootDir: File) {
+        val sourceDir = File(sourceDirPath)
+        if (!sourceDir.exists() || !sourceDir.isDirectory) {
+            println("Source directory does not exist or is not a directory: $sourceDirPath")
+            return
+        }
+        sourceDir.walkTopDown().forEach { file ->
+            val relativePath = file.relativeTo(sourceDir).path
+            val targetFile = File(projectRootDir.path.toString() + "/.nativeblocks/integrations", relativePath)
+            if (file.isDirectory) {
+                targetFile.mkdirs()
+            } else {
+                targetFile.parentFile.mkdirs()
+                Files.copy(file.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                println("Copied: ${file.path} to ${targetFile.path}")
+            }
+        }
+    }
+
+    suspend fun prepareSchema(project: Project) {
+        val directoryPath =
+            "generated/ksp/debug/resources/${GlobalState.basePackageName?.replace(".", "/")}/integration/consumer"
+        val jsonDirectory = project.layout.buildDirectory.files(directoryPath)
+
+        val files = jsonDirectory.first().listFiles()
+        if (files.isNullOrEmpty()) {
+            throw GradleException("There is no integration under $directoryPath, Please make sure implementation is correct and there is no build issue")
+        }
+        withContext(Dispatchers.IO) {
+            copyDirectoryToRoot(jsonDirectory.asPath, project.rootDir)
+        }
+    }
 
     suspend fun syncIntegration(project: Project, kind: String) {
         val directoryPath =
@@ -136,7 +174,7 @@ class IntegrationRepository {
         }
     }
 
-    private suspend fun syncProperties(
+    private fun syncProperties(
         integrationId: String,
         integrationName: String,
         propertiesJson: JsonElement,
@@ -168,7 +206,7 @@ class IntegrationRepository {
         }
     }
 
-    private suspend fun syncEvents(
+    private fun syncEvents(
         integrationId: String,
         integrationName: String,
         eventsJson: JsonElement,
@@ -195,7 +233,7 @@ class IntegrationRepository {
         }
     }
 
-    private suspend fun syncData(
+    private fun syncData(
         integrationId: String,
         integrationName: String,
         dataJson: JsonElement,
@@ -223,7 +261,7 @@ class IntegrationRepository {
         }
     }
 
-    private suspend fun syncSlots(
+    private fun syncSlots(
         integrationId: String,
         integrationName: String,
         slotsJson: JsonElement,
