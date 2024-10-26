@@ -1,6 +1,6 @@
 # Nativeblocks gradle plugin
 
-The Nativeblocks gradle plugin is a tool that for uploading JSON generated
+The Nativeblocks gradle plugin is a tool that for uploading JSON generated and prepare schema
 by [compiler](https://github.com/nativeblocks/compiler-android) to Nativeblocks servers
 
 ## How it works
@@ -23,6 +23,8 @@ authToken=
 organizationId=
 ```
 
+Note: if you are using community version, there is no need to add endpoint, authToken and organizationId
+
 ```groovy
 def nativeblocksProps = new Properties()
 file("nativeblocks.properties").withInputStream { props.load(it) }
@@ -35,4 +37,14 @@ nativeblocks {
     basePackageName = "your.packagename.appname"
     moduleName = "your_module_name"
 }
+```
+
+#### Sync
+```shell
+ ./gradlew :app:nativeblocksSync
+```
+
+#### PrepareSchema
+```shell
+ ./gradlew :app:nativeblocksPrepareSchema
 ```
