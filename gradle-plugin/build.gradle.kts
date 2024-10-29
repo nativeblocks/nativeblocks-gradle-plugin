@@ -83,7 +83,7 @@ dependencies {
 object ModuleInfo {
     const val GROUP_ID = "io.nativeblocks"
     const val ARTIFACT_ID = "nativeblocks-gradle-plugin"
-    const val VERSION = "1.0.1"
+    const val VERSION = "1.0.2"
     const val DESCRIPTION = "Nativeblocks gradle plugin for Android"
     const val URL = "https://nativeblocks.io"
     const val IMPLEMENTATION_CLASS = "io.nativeblocks.gradleplugin.NativeblocksGradlePlugin"
