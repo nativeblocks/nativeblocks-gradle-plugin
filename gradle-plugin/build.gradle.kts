@@ -63,10 +63,10 @@ mavenPublishing {
             }
         }
         scm {
-            connection = "scm:git:github.com/nativeblocks/gradle-plugin.git"
+            connection = "scm:git:github.com/nativeblocks/nativeblocks-gradle-plugin.git"
             developerConnection =
-                "scm:git:ssh://github.com/nativeblocks/gradle-plugin.git"
-            url = "https://github.com/nativeblocks/gradle-plugin"
+                "scm:git:ssh://github.com/nativeblocks/nativeblocks-gradle-plugin.git"
+            url = "https://github.com/nativeblocks/nativeblocks-gradle-plugin"
         }
     }
 }
