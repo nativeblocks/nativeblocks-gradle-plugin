@@ -14,17 +14,9 @@ open class NativeblocksExtension {
     var organizationId: String? = null
 
     @Input
-    var integrationTypes: Array<IntegrationType>? = null
-
-    @Input
     var basePackageName: String? = null
 
     @Input
     var moduleName: String? = null
 
-}
-
-enum class IntegrationType {
-    BLOCK,
-    ACTION
 }
