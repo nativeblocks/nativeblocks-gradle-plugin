@@ -1,4 +1,3 @@
-import io.nativeblocks.gradleplugin.IntegrationType
 import org.jetbrains.kotlin.konan.properties.Properties
 import java.io.FileInputStream
 
@@ -6,7 +5,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
-    id("io.nativeblocks.nativeblocks-gradle-plugin").version("1.0.1")
+    id("io.nativeblocks.nativeblocks-gradle-plugin").version("1.0.3")
 }
 
 android {
@@ -64,7 +63,6 @@ nativeblocks {
     endpoint = nativeblocksProps["endpoint"] as String
     authToken = nativeblocksProps["authToken"] as String
     organizationId = nativeblocksProps["organizationId"] as String
-    integrationTypes = arrayOf(IntegrationType.BLOCK, IntegrationType.ACTION)
     basePackageName = "io.nativeblocks.sampleapp"
     moduleName = "Demo"
 }
