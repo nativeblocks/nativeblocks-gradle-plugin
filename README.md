@@ -33,7 +33,6 @@ nativeblocks {
     endpoint = nativeblocksProps.getProperty("endpoint").toString()
     authToken = nativeblocksProps.getProperty("authToken").toString()
     organizationId = nativeblocksProps.getProperty("organizationId").toString()
-    integrationTypes = [IntegrationType.BLOCK, IntegrationType.ACTION]
     basePackageName = "your.packagename.appname"
     moduleName = "your_module_name"
 }
@@ -41,10 +40,10 @@ nativeblocks {
 
 #### Sync
 ```shell
- ./gradlew :app:nativeblocksSync
+ ./gradlew :app:nativeblocksSyncDebug
 ```
 
 #### PrepareSchema
 ```shell
- ./gradlew :app:nativeblocksPrepareSchema
+ ./gradlew :app:nativeblocksPrepareSchemaDebug
 ```
