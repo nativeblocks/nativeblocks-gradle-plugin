@@ -78,6 +78,7 @@ dependencies {
     //==========================remote===========================
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
+    implementation("com.android.tools.build:gradle:8.4.1")
 }
 
 object ModuleInfo {

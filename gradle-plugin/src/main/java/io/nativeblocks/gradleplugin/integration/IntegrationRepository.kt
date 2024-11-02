@@ -75,9 +75,9 @@ class IntegrationRepository {
         }
     }
 
-    suspend fun prepareSchema(project: Project) {
+    suspend fun prepareSchema(project: Project, flavor: String) {
         val directoryPath =
-            "generated/ksp/debug/resources/${GlobalState.basePackageName?.replace(".", "/")}/integration/consumer"
+            "generated/ksp/$flavor/resources/${GlobalState.basePackageName?.replace(".", "/")}/integration/consumer"
         val jsonDirectory = project.layout.buildDirectory.files(directoryPath)
 
         val files = jsonDirectory.first().listFiles()
@@ -89,9 +89,9 @@ class IntegrationRepository {
         }
     }
 
-    suspend fun syncIntegration(project: Project, kind: String) {
+    suspend fun syncIntegration(project: Project, kind: String, flavor: String) {
         val directoryPath =
-            "generated/ksp/debug/resources/${GlobalState.basePackageName?.replace(".", "/")}/integration/consumer/$kind"
+            "generated/ksp/$flavor/resources/${GlobalState.basePackageName?.replace(".", "/")}/integration/consumer/$kind"
         val jsonDirectory = project.layout.buildDirectory.files(directoryPath)
 
         val files = jsonDirectory.first().listFiles()
