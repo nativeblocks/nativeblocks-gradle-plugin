@@ -6,6 +6,8 @@ import com.apollographql.apollo3.network.okHttpClient
 import io.nativeblocks.gradleplugin.GlobalState
 import io.nativeblocks.gradleplugin.network.AuthorizationInterceptor
 import io.nativeblocks.gradleplugin.network.NetworkRequestExecutor
+import io.nativeblocks.gradleplugin.network.doOnError
+import io.nativeblocks.gradleplugin.network.doOnSuccess
 import io.nativeblocks.gradleplugin.network.execute
 import io.nativeblocks.network.SyncIntegrationDataMutation
 import io.nativeblocks.network.SyncIntegrationEventsMutation
@@ -91,9 +93,42 @@ class IntegrationRepository {
         return result
     }
 
+    private fun mergeFilePaths(fileList: List<File>): Map<String, IntegrationMeta> {
+        val result = mutableMapOf<String, IntegrationMeta>()
+        fileList.forEach { f ->
+            val parent = f.parentFile.name
+            val filename = f.name
+
+            val meta = when (filename) {
+                "integration.json" -> IntegrationMeta(Json.parseToJsonElement(f.readText()), null, null, null, null)
+                "properties.json" -> IntegrationMeta(null, Json.parseToJsonElement(f.readText()), null, null, null)
+                "events.json" -> IntegrationMeta(null, null, Json.parseToJsonElement(f.readText()), null, null)
+                "data.json" -> IntegrationMeta(null, null, null, Json.parseToJsonElement(f.readText()), null)
+                "slots.json" -> IntegrationMeta(null, null, null, null, Json.parseToJsonElement(f.readText()))
+                else -> IntegrationMeta(null, null, null, null, null)
+            }
+
+            val existingMeta = result.getOrPut(parent) {
+                IntegrationMeta(null, null, null, null, null)
+            }
+
+            result[parent] = existingMeta.copy(
+                integrationJson = meta.integrationJson ?: existingMeta.integrationJson,
+                propertiesJson = meta.propertiesJson ?: existingMeta.propertiesJson,
+                eventsJson = meta.eventsJson ?: existingMeta.eventsJson,
+                dataJson = meta.dataJson ?: existingMeta.dataJson,
+                slotsJson = meta.slotsJson ?: existingMeta.slotsJson
+            )
+        }
+        return result
+    }
+
+    private fun rootDirectoryPath(flavor: String): String {
+        return "generated/ksp/$flavor/resources/${GlobalState.basePackageName?.replace(".", "/")}/integration/consumer"
+    }
+
     suspend fun prepareSchema(project: Project, flavor: String) {
-        val directoryPath =
-            "generated/ksp/$flavor/resources/${GlobalState.basePackageName?.replace(".", "/")}/integration/consumer"
+        val directoryPath = rootDirectoryPath(flavor)
         val jsonDirectory = project.layout.buildDirectory.files(directoryPath)
 
         val files = jsonDirectory.first().listFiles()
@@ -106,85 +141,44 @@ class IntegrationRepository {
     }
 
     suspend fun syncIntegration(project: Project, flavor: String) {
-        val directoryPath =
-            "generated/ksp/$flavor/resources/${GlobalState.basePackageName?.replace(".", "/")}/integration/consumer"
+        val directoryPath = rootDirectoryPath(flavor)
         val jsonDirectory = project.layout.buildDirectory.files(directoryPath)
-
-        val dirs = getSubdirectories(jsonDirectory.asPath)
-        dirs.forEach {
-            val integrationJsonList = it.listFiles()?.map { f ->
-                val integrationFile = f.listFiles()?.find { it.name == "integration.json" }
-                val integrationJson = if (integrationFile?.exists() == true) {
-                    Json.parseToJsonElement(integrationFile.readText())
-                } else {
-                    null
-                }
-
-                val propertiesFile = f.listFiles()?.find { it.name == "properties.json" }
-                val propertiesJson = if (propertiesFile?.exists() == true) {
-                    Json.parseToJsonElement(propertiesFile.readText())
-                } else {
-                    null
-                }
-
-                val eventsFile = f.listFiles()?.find { it.name == "events.json" }
-                val eventsJson = if (eventsFile?.exists() == true) {
-                    Json.parseToJsonElement(eventsFile.readText())
-                } else {
-                    null
-                }
-
-                val dataFile = f.listFiles()?.find { it.name == "data.json" }
-                val dataJson = if (dataFile?.exists() == true) {
-                    Json.parseToJsonElement(dataFile.readText())
-                } else {
-                    null
-                }
-
-                val slotsFile = f.listFiles()?.find { it.name == "slots.json" }
-                val slotsJson = if (slotsFile?.exists() == true) {
-                    Json.parseToJsonElement(slotsFile.readText())
-                } else {
-                    null
-                }
-
-                IntegrationMeta(integrationJson, propertiesJson, eventsJson, dataJson, slotsJson)
-            }
-            integrationJsonList?.forEach { meta ->
-                if (meta.integrationJson == null) return
-
-                val request = apolloClient.mutation(
-                    SyncIntegrationMutation(
-                        input = SyncIntegrationInput(
-                            name = meta.integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty(),
-                            keyType = meta.integrationJson.jsonObject["keyType"]?.jsonPrimitive?.content.orEmpty(),
-                            imageIcon = Optional.presentIfNotNull(meta.integrationJson.jsonObject["imageIcon"]?.jsonPrimitive?.content.orEmpty()),
-                            price = meta.integrationJson.jsonObject["price"]?.jsonPrimitive?.intOrNull ?: 0,
-                            description = Optional.presentIfNotNull(meta.integrationJson.jsonObject["description"]?.jsonPrimitive?.content.orEmpty()),
-                            documentation = Optional.presentIfNotNull(meta.integrationJson.jsonObject["documentation"]?.jsonPrimitive?.content.orEmpty()),
-                            platformSupport = meta.integrationJson.jsonObject["platformSupport"]?.jsonPrimitive?.content.orEmpty(),
-                            public = meta.integrationJson.jsonObject["public"]?.jsonPrimitive?.booleanOrNull ?: false,
-                            kind = meta.integrationJson.jsonObject["kind"]?.jsonPrimitive?.content.orEmpty(),
-                            organizationId = GlobalState.organizationId.orEmpty()
+        mergeFilePaths(getSubdirectories(jsonDirectory.asPath)
+            .flatMap { it.listFiles().orEmpty().toList() })
+            .forEach { entity ->
+                entity.value.integrationJson?.let { integrationJson ->
+                    val request = apolloClient.mutation(
+                        SyncIntegrationMutation(
+                            input = SyncIntegrationInput(
+                                name = integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty(),
+                                keyType = integrationJson.jsonObject["keyType"]?.jsonPrimitive?.content.orEmpty(),
+                                imageIcon = Optional.presentIfNotNull(integrationJson.jsonObject["imageIcon"]?.jsonPrimitive?.content.orEmpty()),
+                                price = integrationJson.jsonObject["price"]?.jsonPrimitive?.intOrNull ?: 0,
+                                description = Optional.presentIfNotNull(integrationJson.jsonObject["description"]?.jsonPrimitive?.content.orEmpty()),
+                                documentation = Optional.presentIfNotNull(integrationJson.jsonObject["documentation"]?.jsonPrimitive?.content.orEmpty()),
+                                platformSupport = integrationJson.jsonObject["platformSupport"]?.jsonPrimitive?.content.orEmpty(),
+                                public = integrationJson.jsonObject["public"]?.jsonPrimitive?.booleanOrNull
+                                    ?: false,
+                                kind = integrationJson.jsonObject["kind"]?.jsonPrimitive?.content.orEmpty(),
+                                organizationId = GlobalState.organizationId.orEmpty()
+                            )
                         )
                     )
-                )
-
-                networkRequestExecutor.requestExecutor(request).execute({ res ->
-                    runBlocking {
+                    val req = networkRequestExecutor.requestExecutor(request)
+                    req.doOnSuccess { res ->
                         val id = res?.syncIntegration?.id.orEmpty()
                         val name = res?.syncIntegration?.name.orEmpty()
-
-                        meta.propertiesJson?.let { syncProperties(id, name, it) }
-                        meta.eventsJson?.let { syncEvents(id, name, it) }
-                        meta.dataJson?.let { syncData(id, name, it) }
-                        meta.slotsJson?.let { syncSlots(id, name, it) }
+                        entity.value.propertiesJson?.let { syncProperties(id, name, it) }
+                        entity.value.eventsJson?.let { syncEvents(id, name, it) }
+                        entity.value.dataJson?.let { syncData(id, name, it) }
+                        entity.value.slotsJson?.let { syncSlots(id, name, it) }
+                        println("Integration ${res?.syncIntegration?.keyType} has been uploaded successfully")
                     }
-                }, { error ->
-                    throw GradleException("The ${meta.integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty()} failed to upload because: ${error.message}")
-                })
+                    req.doOnError { error ->
+                        throw GradleException("The ${integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty()} failed to upload because: ${error.message}")
+                    }
+                }
             }
-        }
     }
 
     private fun syncProperties(

@@ -78,13 +78,13 @@ dependencies {
     //==========================remote===========================
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
-    implementation("com.android.tools.build:gradle:8.4.1")
+    compileOnly("com.android.tools.build:gradle:8.4.1")
 }
 
 object ModuleInfo {
     const val GROUP_ID = "io.nativeblocks"
     const val ARTIFACT_ID = "nativeblocks-gradle-plugin"
-    const val VERSION = "1.0.3"
+    const val VERSION = "1.0.4"
     const val DESCRIPTION = "Nativeblocks gradle plugin for Android"
     const val URL = "https://nativeblocks.io"
     const val IMPLEMENTATION_CLASS = "io.nativeblocks.gradleplugin.NativeblocksGradlePlugin"
