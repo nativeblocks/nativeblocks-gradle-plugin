@@ -3,30 +3,18 @@ package io.nativeblocks.gradleplugin.network
 import com.apollographql.apollo3.ApolloCall
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Operation
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 internal class NetworkRequestExecutor {
     suspend fun <D : Operation.Data> requestExecutor(result: ApolloCall<D>): ResultModel<D?> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = result.execute()
-                when {
-                    response.hasErrors() -> {
-                        return@withContext errorHandler(response)
-                    }
-
-                    response.data != null -> {
-                        return@withContext ResultModel.Success(response.data)
-                    }
-
-                    else -> return@withContext errorHandler(response)
-                }
-            } catch (e: Exception) {
-                return@withContext ResultModel.Error(
-                    ErrorModel("Please try again", GraphqlErrorTypes.UNKNOWN_ERROR.name)
-                )
+        return try {
+            val response = result.execute()
+            when {
+                response.hasErrors() -> errorHandler(response)
+                response.data != null -> ResultModel.Success(response.data)
+                else -> errorHandler(response)
             }
+        } catch (e: Exception) {
+            ResultModel.Error(ErrorModel("Please try again", GraphqlErrorTypes.UNKNOWN_ERROR.name))
         }
     }
 

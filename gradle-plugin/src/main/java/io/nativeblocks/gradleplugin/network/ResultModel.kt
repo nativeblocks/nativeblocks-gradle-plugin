@@ -40,13 +40,3 @@ internal inline fun <R, T> ResultModel<T>.execute(
         is ResultModel.Error -> ifError(ErrorModel(error.message))
     }
 }
-
-internal inline fun <R, T> ResultModel<T>.executeAsync(
-    ifSuccess: T.() -> R,
-    ifError: (error: ErrorModel) -> R
-): R {
-    return when (this) {
-        is ResultModel.Success<T> -> ifSuccess(value)
-        is ResultModel.Error -> ifError(ErrorModel(error.message))
-    }
-}
