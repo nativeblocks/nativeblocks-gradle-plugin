@@ -160,7 +160,9 @@ class IntegrationRepository {
                                 public = integrationJson.jsonObject["public"]?.jsonPrimitive?.booleanOrNull
                                     ?: false,
                                 kind = integrationJson.jsonObject["kind"]?.jsonPrimitive?.content.orEmpty(),
-                                organizationId = GlobalState.organizationId.orEmpty()
+                                organizationId = GlobalState.organizationId.orEmpty(),
+                                deprecated = Optional.presentIfNotNull(integrationJson.jsonObject["deprecated"]?.jsonPrimitive?.booleanOrNull ?: false),
+                                deprecatedReason = Optional.presentIfNotNull(integrationJson.jsonObject["deprecatedReason"]?.jsonPrimitive?.content.orEmpty()),
                             )
                         )
                     )
@@ -199,7 +201,9 @@ class IntegrationRepository {
                             description = property.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
                             valuePicker = property.jsonObject["valuePicker"]?.jsonPrimitive?.content.orEmpty(),
                             valuePickerGroup = property.jsonObject["valuePickerGroup"]?.jsonPrimitive?.content.orEmpty(),
-                            valuePickerOptions = property.jsonObject["valuePickerOptions"]?.jsonPrimitive?.content.orEmpty()
+                            valuePickerOptions = property.jsonObject["valuePickerOptions"]?.jsonPrimitive?.content.orEmpty(),
+                            deprecated = Optional.presentIfNotNull(property.jsonObject["deprecated"]?.jsonPrimitive?.booleanOrNull ?: false),
+                            deprecatedReason = Optional.presentIfNotNull(property.jsonObject["deprecatedReason"]?.jsonPrimitive?.content.orEmpty()),
                         )
                     }
                 )
@@ -227,6 +231,8 @@ class IntegrationRepository {
                         IntegrationEventInput(
                             event = event.jsonObject["event"]?.jsonPrimitive?.content.orEmpty(),
                             description = event.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
+                            deprecated = Optional.presentIfNotNull(event.jsonObject["deprecated"]?.jsonPrimitive?.booleanOrNull ?: false),
+                            deprecatedReason = Optional.presentIfNotNull(event.jsonObject["deprecatedReason"]?.jsonPrimitive?.content.orEmpty()),
                         )
                     }
                 )
@@ -255,6 +261,8 @@ class IntegrationRepository {
                             key = dataItem.jsonObject["key"]?.jsonPrimitive?.content.orEmpty(),
                             type = dataItem.jsonObject["type"]?.jsonPrimitive?.content.orEmpty(),
                             description = dataItem.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
+                            deprecated = Optional.presentIfNotNull(dataItem.jsonObject["deprecated"]?.jsonPrimitive?.booleanOrNull ?: false),
+                            deprecatedReason = Optional.presentIfNotNull(dataItem.jsonObject["deprecatedReason"]?.jsonPrimitive?.content.orEmpty()),
                         )
                     }
                 )
@@ -282,6 +290,8 @@ class IntegrationRepository {
                         IntegrationSlotsInput(
                             slot = slot.jsonObject["slot"]?.jsonPrimitive?.content.orEmpty(),
                             description = slot.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
+                            deprecated = Optional.presentIfNotNull(slot.jsonObject["deprecated"]?.jsonPrimitive?.booleanOrNull ?: false),
+                            deprecatedReason = Optional.presentIfNotNull(slot.jsonObject["deprecatedReason"]?.jsonPrimitive?.content.orEmpty()),
                         )
                     }
                 )
