@@ -22,12 +22,24 @@ type ActionTriggerDataResult {
   value: String
 
   type: String
+
+  description: String
+
+  deprecated: Boolean
+
+  deprecatedReason: String
 }
 
 type ActionTriggerEventResult {
   id: String
 
   event: String
+
+  description: String
+
+  deprecated: Boolean
+
+  deprecatedReason: String
 }
 
 input ActionTriggerPropertiesInput {
@@ -46,6 +58,10 @@ type ActionTriggerPropertyResult {
   type: String
 
   description: String
+
+  deprecated: Boolean
+
+  deprecatedReason: String
 
   valuePicker: String
 
@@ -72,6 +88,10 @@ type ActionTriggerResult {
   data: [ActionTriggerDataResult]
 
   integrationVersion: Int
+
+  integrationDeprecated: Boolean
+
+  integrationDeprecatedReason: String
 }
 
 input AddActionInput {
@@ -222,6 +242,10 @@ type BlockDataResult {
   type: String
 
   description: String
+
+  deprecated: Boolean
+
+  deprecatedReason: String
 }
 
 type BlockEventResult {
@@ -230,6 +254,10 @@ type BlockEventResult {
   event: String
 
   description: String
+
+  deprecated: Boolean
+
+  deprecatedReason: String
 }
 
 input BlockInput {
@@ -275,6 +303,10 @@ type BlockPropertyResult {
 
   description: String
 
+  deprecated: Boolean
+
+  deprecatedReason: String
+
   valuePicker: String
 
   valuePickerGroup: String
@@ -306,6 +338,10 @@ type BlockResult {
   slots: [BlockSlotResult]
 
   integrationVersion: Int
+
+  integrationDeprecated: Boolean
+
+  integrationDeprecatedReason: String
 }
 
 type BlockSlotResult {
@@ -314,6 +350,10 @@ type BlockSlotResult {
   slot: String
 
   description: String
+
+  deprecated: Boolean
+
+  deprecatedReason: String
 }
 
 """
@@ -1099,6 +1139,8 @@ input SyncIntegrationInput {
   kind: String!
 
   organizationId: String!
+
+  version: Int!
 
   deprecated: Boolean
 
