@@ -14,7 +14,12 @@ internal class NetworkRequestExecutor {
                 else -> errorHandler(response)
             }
         } catch (e: Exception) {
-            ResultModel.Error(ErrorModel("Please try again", GraphqlErrorTypes.UNKNOWN_ERROR.name))
+            ResultModel.Error(
+                ErrorModel(
+                    e.message ?: "Please try again",
+                    GraphqlErrorTypes.UNKNOWN_ERROR.name
+                )
+            )
         }
     }
 
