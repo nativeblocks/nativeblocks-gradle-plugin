@@ -17,6 +17,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "gradle-plugin"
+rootProject.name = "nativeblocks-gradle-plugin"
 include(":app")
 include(":gradle-plugin")
