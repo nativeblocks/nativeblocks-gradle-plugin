@@ -29,7 +29,6 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun registerTask(project: Project, extension: NativeblocksExtension, flavor: String) {
         project.tasks.register("nativeblocksSync$flavor") {
             GlobalState.endpoint = extension.endpoint
