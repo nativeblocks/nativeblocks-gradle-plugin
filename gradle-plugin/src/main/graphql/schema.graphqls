@@ -144,28 +144,6 @@ input AddFrameInput {
   routeArguments: [FrameNavigationArgumentInput]
 }
 
-input AddIntegrationInput {
-  name: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  keyType: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  imageIcon: String @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  price: Int! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  description: String @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  documentation: String @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  platformSupport: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  public: Boolean! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  kind: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  organizationId: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-}
-
 input AddLanguageInput {
   code: String!
 }
@@ -178,6 +156,8 @@ input AddProjectApiKeyInput {
   name: String!
 
   projectId: String!
+
+  organizationId: String!
 }
 
 input AddVariableInput {
@@ -196,34 +176,6 @@ type AvailableLanguageResult {
   code: String
 
   name: String
-}
-
-type BillingProductResult {
-  name: String
-
-  productKey: String
-
-  priceId: String
-
-  priceAmount: Int
-
-  currency: String
-
-  quantity: Int
-}
-
-type BillingSubscriptionPackageResult {
-  id: String
-
-  subscriptions: [BillingSubscriptionResult]
-}
-
-type BillingSubscriptionResult {
-  id: String
-
-  product: BillingProductResult
-
-  quantity: Int
 }
 
 input BlockDataInput {
@@ -417,6 +369,8 @@ input DeleteProjectApiKeyInput {
   apiKey: String!
 
   projectId: String!
+
+  organizationId: String!
 }
 
 input DeleteProjectInput {
@@ -460,8 +414,6 @@ type FrameNavigationArgumentResult {
 }
 
 type FrameResult {
-  project: ProjectResult
-
   id: String
 
   checksum: String
@@ -481,6 +433,22 @@ type FrameResult {
   blocks: [BlockResult]
 
   actions: [ActionResult]
+}
+
+type FrameShortResult {
+  id: String
+
+  checksum: String
+
+  name: String
+
+  type: String
+
+  route: String
+
+  isStarter: Boolean
+
+  routeArguments: [FrameNavigationArgumentResult]
 }
 
 type FrameTypeResult {
@@ -680,22 +648,22 @@ type IntegrationResult {
   slots: [IntegrationSlotResult]
 }
 
-type IntegrationSlotResult {
-  id: String
+input IntegrationSlotInput {
+  slot: String!
 
-  slot: String
-
-  description: String
+  description: String!
 
   deprecated: Boolean
 
   deprecatedReason: String
 }
 
-input IntegrationSlotsInput {
-  slot: String!
+type IntegrationSlotResult {
+  id: String
 
-  description: String!
+  slot: String
+
+  description: String
 
   deprecated: Boolean
 
@@ -754,23 +722,21 @@ type LoginResult {
 
 type Mutation {
   """
-   greeting
+  greeting
   """
   greeting(name: String!): String
 
   """
-   auth
+  auth
   """
-  authRegister(email: String!, password: String!): UserResult
+  authRegister(email: String!, password: String!): LoginResult
 
   authLogin(email: String!, password: String!): LoginResult
 
   authLoginWithGoogle(idToken: String!): LoginResult
 
-  authRefreshToken(refreshToken: String!): LoginResult
-
   """
-   organization
+  organization
   """
   createOrganization(input: CreateOrganizationInput!): OrganizationResult
 
@@ -783,7 +749,7 @@ type Mutation {
   deleteOrganizationContributor(input: OrganizationContributorInput!): OrganizationResult
 
   """
-   project
+  project
   """
   createProject(input: CreateProjectInput!): ProjectResult
 
@@ -796,20 +762,20 @@ type Mutation {
   deleteProjectApiKey(input: DeleteProjectApiKeyInput!): ProjectApiKeyResult
 
   """
-   frame
+  frame
   """
-  addFrame(input: AddFrameInput!): FrameResult
+  addFrame(input: AddFrameInput!): FrameShortResult
 
-  updateFrame(input: UpdateFrameInput!): FrameResult
+  updateFrame(input: UpdateFrameInput!): FrameShortResult
 
-  deleteFrame(input: DeleteFrameInput!): FrameResult
+  deleteFrame(input: DeleteFrameInput!): FrameShortResult
 
-  publishFrame(input: PublishFrameInput!): FrameResult
+  publishFrame(input: PublishFrameInput!): FrameShortResult
 
-  syncFrame(input: SyncFrameInput!): FrameResult
+  syncFrame(input: SyncFrameInput!): FrameShortResult
 
   """
-   block
+  block
   """
   addBlock(input: AddBlockInput!): BlockResult
 
@@ -830,7 +796,7 @@ type Mutation {
   updateBlocks(input: UpdateBlocksInput!): BlockResult
 
   """
-   variable
+  variable
   """
   addVariable(input: AddVariableInput!): VariableResult
 
@@ -839,14 +805,14 @@ type Mutation {
   deleteVariable(input: DeleteVariableInput!): VariableResult
 
   """
-   action
+  action
   """
   addAction(input: AddActionInput!): ActionResult
 
   deleteAction(input: DeleteActionInput!): ActionResult
 
   """
-   actionTrigger
+  actionTrigger
   """
   addActionTrigger(input: AddActionTriggerInput!): ActionTriggerResult
 
@@ -860,16 +826,12 @@ type Mutation {
 
   updateActionTriggerPosition(input: UpdateActionTriggerPositionInput!): ActionTriggerResult
 
-  updateActionTriggerName(input: UpdateActionTriggerNameInput!): ActionTriggerResult @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  createIntegration(input: AddIntegrationInput!): IntegrationResult @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  updateIntegration(input: UpdateIntegrationInput!): IntegrationResult
+  updateActionTriggerName(input: UpdateActionTriggerNameInput!): ActionTriggerResult
 
   syncIntegration(input: SyncIntegrationInput!): IntegrationResult
 
   """
-   integration meta
+  integration meta
   """
   syncIntegrationProperties(input: SyncIntegrationPropertiesInput!): [IntegrationPropertyResult]
 
@@ -880,7 +842,7 @@ type Mutation {
   syncIntegrationSlots(input: SyncIntegrationSlotsInput!): [IntegrationSlotResult]
 
   """
-   integration installation
+  integration installation
   """
   installIntegration(input: InstallIntegrationInput!): IntegrationProjectResult
 
@@ -889,7 +851,7 @@ type Mutation {
   unInstallIntegration(input: UnInstallIntegrationInput!): IntegrationProjectResult
 
   """
-   localization
+  localization
   """
   addLanguage(input: AddLanguageInput!): LanguageResult
 
@@ -936,30 +898,12 @@ type ProjectApiKeyResult {
   expireAt: String
 }
 
-type ProjectConfigGatewayResult {
-  operation: String
-
-  type: String
-
-  value: String
-}
-
-type ProjectConfigResult {
-  gateway: String
-
-  realtimeEndpoint: String
-
-  endpoints: [ProjectConfigGatewayResult]
-}
-
 type ProjectResult {
   id: String
 
   name: String
 
   platform: String
-
-  organization: OrganizationResult
 
   apiKeys: [ProjectApiKeyResult]
 }
@@ -978,44 +922,35 @@ input PublishFrameInput {
 
 type Query {
   """
-   ping
+  ping
   """
   ping: String
 
   """
-   user
+  user
   """
   user: UserResult
 
   """
-   organization
+  organization
   """
   organizations: [OrganizationResult]
 
   """
-   billing
+  project
   """
-  billingSubscriptionPackage(organizationId: String!): BillingSubscriptionPackageResult
-
-  billingPortalSession(organizationId: String!): String
-
-  """
-   project
-  """
-  project(id: String!): ProjectResult
+  project(id: String!, organizationId: String!): ProjectResult
 
   projects(organizationId: String!): [ProjectResult]
 
-  projectUsageByRoute(id: String, from: String, to: String, developmentMode: Boolean): [ProjectUsageResult]
+  projectUsageByRoute(id: String!, organizationId: String!, from: String!, to: String!, developmentMode: Boolean!): [ProjectUsageResult]
 
-  projectUsageByTotal(id: String, from: String, to: String, developmentMode: Boolean): [ProjectUsageResult]
+  projectUsageByTotal(id: String!, organizationId: String!, from: String!, to: String!, developmentMode: Boolean!): [ProjectUsageResult]
 
-  projectApiKeys(projectId: String!): [ProjectApiKeyResult]
-
-  projectConfig: ProjectConfigResult
+  projectApiKeys(projectId: String!, organizationId: String!): [ProjectApiKeyResult]
 
   """
-   frame
+  frame
   """
   scaffold: ScaffoldResult
 
@@ -1027,10 +962,10 @@ type Query {
 
   frameById(frameId: String!): FrameResult
 
-  frameTypes(platform: String!): [FrameTypeResult]
+  frameTypes: [FrameTypeResult]
 
   """
-   block
+  block
   """
   blockById(frameId: String!, blockId: String!): BlockResult
 
@@ -1039,19 +974,19 @@ type Query {
   blocks(frameId: String!): [BlockResult]
 
   """
-   variable
+  variable
   """
   variables(frameId: String!): [VariableResult]
 
   """
-   action
+  action
   """
   actions(frameId: String!): [ActionResult]
 
   actionTriggerById(frameId: String!, actionId: String!, actionTriggerId: String!): ActionTriggerResult
 
   """
-   integration
+  integration
   """
   integration(integrationId: String!, organizationId: String!): IntegrationResult
 
@@ -1066,14 +1001,14 @@ type Query {
   integrationSlots(integrationId: String!, organizationId: String!): [IntegrationSlotResult]
 
   """
-   integration installation
+  integration installation
   """
   integrationCheckInstallation(integrationId: String!, projectId: String!, organizationId: String!): IntegrationProjectResult
 
   integrationsInstalled(projectId: String!, organizationId: String!, kind: String!): [IntegrationProjectResult]
 
   """
-   localization
+  localization
   """
   localizations(languageCode: String): LocalizationResult
 
@@ -1089,7 +1024,7 @@ type Query {
 type ScaffoldResult {
   project: ProjectResult
 
-  frames: [FrameResult]
+  frames: [FrameShortResult]
 }
 
 """
@@ -1160,7 +1095,7 @@ input SyncIntegrationSlotsInput {
 
   organizationId: String!
 
-  slots: [IntegrationSlotsInput]!
+  slots: [IntegrationSlotInput]!
 }
 
 input UnInstallIntegrationInput {
@@ -1269,30 +1204,6 @@ input UpdateFrameInput {
   isStarter: Boolean!
 
   routeArguments: [FrameNavigationArgumentInput]
-}
-
-input UpdateIntegrationInput {
-  id: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  name: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  keyType: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  imageIcon: String @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  price: Int! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  description: String @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  documentation: String @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  platformSupport: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  public: Boolean! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  kind: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
-
-  organizationId: String! @deprecated(reason: "This is deprecated in favor of SyncIntegration")
 }
 
 input UpdateLocalizationInput {

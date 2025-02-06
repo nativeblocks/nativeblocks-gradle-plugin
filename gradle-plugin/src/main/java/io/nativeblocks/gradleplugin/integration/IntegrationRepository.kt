@@ -17,7 +17,7 @@ import io.nativeblocks.network.SyncIntegrationSlotsMutation
 import io.nativeblocks.network.type.IntegrationDataInput
 import io.nativeblocks.network.type.IntegrationEventInput
 import io.nativeblocks.network.type.IntegrationPropertyInput
-import io.nativeblocks.network.type.IntegrationSlotsInput
+import io.nativeblocks.network.type.IntegrationSlotInput
 import io.nativeblocks.network.type.SyncIntegrationDataInput
 import io.nativeblocks.network.type.SyncIntegrationEventsInput
 import io.nativeblocks.network.type.SyncIntegrationInput
@@ -302,7 +302,7 @@ class IntegrationRepository {
                     integrationId = integrationId,
                     organizationId = GlobalState.organizationId.orEmpty(),
                     slots = slotsJson.jsonArray.map { slot ->
-                        IntegrationSlotsInput(
+                        IntegrationSlotInput(
                             slot = slot.jsonObject["slot"]?.jsonPrimitive?.content.orEmpty(),
                             description = slot.jsonObject["description"]?.jsonPrimitive?.content.orEmpty(),
                             deprecated = Optional.presentIfNotNull(
