@@ -164,6 +164,7 @@ class IntegrationRepository {
                                 organizationId = GlobalState.organizationId.orEmpty(),
                                 version = integrationJson.jsonObject["version"]?.jsonPrimitive?.intOrNull
                                     ?: 1,
+                                versionName = integrationJson.jsonObject["versionName"]?.jsonPrimitive.orEmpty(),
                                 deprecated = Optional.presentIfNotNull(
                                     integrationJson.jsonObject["deprecated"]?.jsonPrimitive?.booleanOrNull
                                         ?: false

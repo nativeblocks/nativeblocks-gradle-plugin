@@ -1077,6 +1077,8 @@ input SyncIntegrationInput {
 
   version: Int!
 
+  versionName: String!
+
   deprecated: Boolean
 
   deprecatedReason: String
