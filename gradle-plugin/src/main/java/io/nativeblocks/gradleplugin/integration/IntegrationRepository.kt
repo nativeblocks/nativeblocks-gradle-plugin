@@ -143,8 +143,9 @@ class IntegrationRepository {
     suspend fun syncIntegration(project: Project, flavor: String) {
         val directoryPath = rootDirectoryPath(flavor)
         val jsonDirectory = project.layout.buildDirectory.files(directoryPath)
-        mergeFilePaths(getSubdirectories(jsonDirectory.asPath)
-            .flatMap { it.listFiles().orEmpty().toList() })
+        mergeFilePaths(
+            getSubdirectories(jsonDirectory.asPath)
+                .flatMap { it.listFiles().orEmpty().toList() })
             .forEach { entity ->
                 entity.value.integrationJson?.let { integrationJson ->
                     val request = apolloClient.mutation(
@@ -153,22 +154,16 @@ class IntegrationRepository {
                                 name = integrationJson.jsonObject["name"]?.jsonPrimitive?.content.orEmpty(),
                                 keyType = integrationJson.jsonObject["keyType"]?.jsonPrimitive?.content.orEmpty(),
                                 imageIcon = Optional.presentIfNotNull(integrationJson.jsonObject["imageIcon"]?.jsonPrimitive?.content.orEmpty()),
-                                price = integrationJson.jsonObject["price"]?.jsonPrimitive?.intOrNull
-                                    ?: 0,
+                                price = integrationJson.jsonObject["price"]?.jsonPrimitive?.intOrNull ?: 0,
                                 description = Optional.presentIfNotNull(integrationJson.jsonObject["description"]?.jsonPrimitive?.content.orEmpty()),
                                 documentation = Optional.presentIfNotNull(integrationJson.jsonObject["documentation"]?.jsonPrimitive?.content.orEmpty()),
                                 platformSupport = integrationJson.jsonObject["platformSupport"]?.jsonPrimitive?.content.orEmpty(),
-                                public = integrationJson.jsonObject["public"]?.jsonPrimitive?.booleanOrNull
-                                    ?: false,
+                                public = integrationJson.jsonObject["public"]?.jsonPrimitive?.booleanOrNull ?: false,
                                 kind = integrationJson.jsonObject["kind"]?.jsonPrimitive?.content.orEmpty(),
                                 organizationId = GlobalState.organizationId.orEmpty(),
-                                version = integrationJson.jsonObject["version"]?.jsonPrimitive?.intOrNull
-                                    ?: 1,
-                                versionName = integrationJson.jsonObject["versionName"]?.jsonPrimitive.orEmpty(),
-                                deprecated = Optional.presentIfNotNull(
-                                    integrationJson.jsonObject["deprecated"]?.jsonPrimitive?.booleanOrNull
-                                        ?: false
-                                ),
+                                version = integrationJson.jsonObject["version"]?.jsonPrimitive?.intOrNull ?: 1,
+                                versionName = integrationJson.jsonObject["versionName"]?.jsonPrimitive?.content.orEmpty(),
+                                deprecated = Optional.presentIfNotNull(integrationJson.jsonObject["deprecated"]?.jsonPrimitive?.booleanOrNull ?: false),
                                 deprecatedReason = Optional.presentIfNotNull(integrationJson.jsonObject["deprecatedReason"]?.jsonPrimitive?.content.orEmpty()),
                             )
                         )
