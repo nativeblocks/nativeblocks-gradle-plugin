@@ -3,12 +3,5 @@ mutation syncIntegration($input: SyncIntegrationInput!) {
         id
         keyType
         name
-        imageIcon
-        price
-        description
-        platformSupport
-        kind
-        public
-        documentation
     }
 }
