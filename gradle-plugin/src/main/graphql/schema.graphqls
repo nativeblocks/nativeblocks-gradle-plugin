@@ -15,8 +15,6 @@ input ActionTriggerDataInput {
 }
 
 type ActionTriggerDataResult {
-  id: String
-
   key: String
 
   value: String
@@ -31,8 +29,6 @@ type ActionTriggerDataResult {
 }
 
 type ActionTriggerEventResult {
-  id: String
-
   event: String
 
   description: String
@@ -49,8 +45,6 @@ input ActionTriggerPropertiesInput {
 }
 
 type ActionTriggerPropertyResult {
-  id: String
-
   key: String
 
   value: String
@@ -89,6 +83,8 @@ type ActionTriggerResult {
 
   integrationVersion: Int
 
+  integrationVersionName: String
+
   integrationDeprecated: Boolean
 
   integrationDeprecatedReason: String
@@ -114,6 +110,12 @@ input AddActionTriggerInput {
   actionId: String!
 
   integrationId: String!
+}
+
+input AddAvailableLanguageInput {
+  code: String
+
+  name: String
 }
 
 input AddBlockInput {
@@ -185,8 +187,6 @@ input BlockDataInput {
 }
 
 type BlockDataResult {
-  id: String
-
   key: String
 
   value: String
@@ -201,8 +201,6 @@ type BlockDataResult {
 }
 
 type BlockEventResult {
-  id: String
-
   event: String
 
   description: String
@@ -241,8 +239,6 @@ input BlockPropertyInput {
 }
 
 type BlockPropertyResult {
-  id: String
-
   key: String
 
   valueMobile: String
@@ -291,14 +287,14 @@ type BlockResult {
 
   integrationVersion: Int
 
+  integrationVersionName: String
+
   integrationDeprecated: Boolean
 
   integrationDeprecatedReason: String
 }
 
 type BlockSlotResult {
-  id: String
-
   slot: String
 
   description: String
@@ -309,12 +305,18 @@ type BlockSlotResult {
 }
 
 """
-Built-in Boolean
+The `Boolean` scalar type represents `true` or `false`.
 """
 scalar Boolean
 
-input CreateOrganizationInput {
-  name: String!
+input ChangeContributorPermissionInput {
+  organizationId: String!
+
+  projectId: String!
+
+  contributorEmail: String!
+
+  contributorPermission: String!
 }
 
 input CreateProjectInput {
@@ -361,10 +363,6 @@ input DeleteLocalizationInput {
   key: String!
 }
 
-input DeleteOrganizationInput {
-  id: String!
-}
-
 input DeleteProjectApiKeyInput {
   apiKey: String!
 
@@ -394,6 +392,11 @@ input DuplicateBlockInput {
 
   frameId: String!
 }
+
+"""
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point).
+"""
+scalar Float
 
 type FrameChecksumResult {
   id: String
@@ -459,6 +462,11 @@ type FrameTypeResult {
   isStarter: Boolean
 }
 
+"""
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as "4") or integer (such as 4) input value will be accepted as an ID.
+"""
+scalar ID
+
 input InstallIntegrationInput {
   integrationId: String!
 
@@ -468,7 +476,7 @@ input InstallIntegrationInput {
 }
 
 """
-Built-in Int
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 """
 scalar Int
 
@@ -485,8 +493,6 @@ input IntegrationDataInput {
 }
 
 type IntegrationDataResult {
-  id: String
-
   key: String
 
   type: String
@@ -509,8 +515,6 @@ input IntegrationEventInput {
 }
 
 type IntegrationEventResult {
-  id: String
-
   event: String
 
   description: String
@@ -542,6 +546,8 @@ type IntegrationProjectResult {
   integrationPrice: Int
 
   integrationVersion: Int
+
+  integrationVersionName: String
 
   integrationDeprecated: Boolean
 
@@ -587,8 +593,6 @@ input IntegrationPropertyInput {
 }
 
 type IntegrationPropertyResult {
-  id: String
-
   key: String
 
   value: String
@@ -620,6 +624,8 @@ type IntegrationResult {
   price: Int
 
   version: Int
+
+  versionName: String
 
   deprecated: Boolean
 
@@ -659,8 +665,6 @@ input IntegrationSlotInput {
 }
 
 type IntegrationSlotResult {
-  id: String
-
   slot: String
 
   description: String
@@ -716,41 +720,13 @@ type LoginResult {
   email: String
 
   accessToken: String
-
-  refreshToken: String
 }
 
 type Mutation {
-  """
-  greeting
-  """
   greeting(name: String!): String
 
-  """
-  auth
-  """
-  authRegister(email: String!, password: String!): LoginResult
+  authLoginWithNativeblocks(jwt: String!): LoginResult
 
-  authLogin(email: String!, password: String!): LoginResult
-
-  authLoginWithGoogle(idToken: String!): LoginResult
-
-  """
-  organization
-  """
-  createOrganization(input: CreateOrganizationInput!): OrganizationResult
-
-  updateOrganization(input: UpdateOrganizationInput!): OrganizationResult
-
-  deleteOrganization(input: DeleteOrganizationInput!): OrganizationResult
-
-  addOrganizationContributor(input: OrganizationContributorInput!): OrganizationResult
-
-  deleteOrganizationContributor(input: OrganizationContributorInput!): OrganizationResult
-
-  """
-  project
-  """
   createProject(input: CreateProjectInput!): ProjectResult
 
   updateProject(input: UpdateProjectInput!): ProjectResult
@@ -761,9 +737,8 @@ type Mutation {
 
   deleteProjectApiKey(input: DeleteProjectApiKeyInput!): ProjectApiKeyResult
 
-  """
-  frame
-  """
+  changeProjectContributorPermission(input: ChangeContributorPermissionInput!): ProjectContributorResult
+
   addFrame(input: AddFrameInput!): FrameShortResult
 
   updateFrame(input: UpdateFrameInput!): FrameShortResult
@@ -774,9 +749,6 @@ type Mutation {
 
   syncFrame(input: SyncFrameInput!): FrameShortResult
 
-  """
-  block
-  """
   addBlock(input: AddBlockInput!): BlockResult
 
   duplicateBlock(input: DuplicateBlockInput!): BlockResult
@@ -787,33 +759,22 @@ type Mutation {
 
   deleteBlock(input: DeleteBlockInput!): BlockResult
 
-  updateBlockPosition(input: UpdateBlockPositionInput!): BlockResult
-
   updateBlockProperties(input: UpdateBlockPropertiesInput!): BlockResult
 
   updateBlockData(input: UpdateBlockDataInput!): BlockResult
 
-  updateBlocks(input: UpdateBlocksInput!): BlockResult
+  updateBlocksPosition(input: UpdateBlocksPositionInput!): [BlockResult]
 
-  """
-  variable
-  """
   addVariable(input: AddVariableInput!): VariableResult
 
   updateVariable(input: UpdateVariableInput!): VariableResult
 
   deleteVariable(input: DeleteVariableInput!): VariableResult
 
-  """
-  action
-  """
   addAction(input: AddActionInput!): ActionResult
 
   deleteAction(input: DeleteActionInput!): ActionResult
 
-  """
-  actionTrigger
-  """
   addActionTrigger(input: AddActionTriggerInput!): ActionTriggerResult
 
   upgradeActionTrigger(input: UpgradeActionTriggerInput!): ActionTriggerResult
@@ -830,9 +791,6 @@ type Mutation {
 
   syncIntegration(input: SyncIntegrationInput!): IntegrationResult
 
-  """
-  integration meta
-  """
   syncIntegrationProperties(input: SyncIntegrationPropertiesInput!): [IntegrationPropertyResult]
 
   syncIntegrationEvents(input: SyncIntegrationEventsInput!): [IntegrationEventResult]
@@ -841,18 +799,14 @@ type Mutation {
 
   syncIntegrationSlots(input: SyncIntegrationSlotsInput!): [IntegrationSlotResult]
 
-  """
-  integration installation
-  """
   installIntegration(input: InstallIntegrationInput!): IntegrationProjectResult
 
   upgradeIntegration(input: UpgradeIntegrationInput!): IntegrationProjectResult
 
   unInstallIntegration(input: UnInstallIntegrationInput!): IntegrationProjectResult
 
-  """
-  localization
-  """
+  addAvailableLanguages(input: AddAvailableLanguageInput!): AvailableLanguageResult
+
   addLanguage(input: AddLanguageInput!): LanguageResult
 
   addLocalization(input: AddLocalizationInput!): LocalizationItemResult
@@ -864,15 +818,7 @@ type Mutation {
   publishLocalization: [LocalizationResult]
 }
 
-input OrganizationContributorInput {
-  organizationId: String!
-
-  contributorEmail: String!
-}
-
 type OrganizationContributorResult {
-  id: String
-
   role: String
 
   user: UserResult
@@ -885,8 +831,6 @@ type OrganizationResult {
 
   manageable: Boolean
 
-  seatCount: Int
-
   contributors: [OrganizationContributorResult]
 }
 
@@ -898,6 +842,14 @@ type ProjectApiKeyResult {
   expireAt: String
 }
 
+type ProjectContributorResult {
+  permission: String
+
+  role: String
+
+  user: UserResult
+}
+
 type ProjectResult {
   id: String
 
@@ -906,14 +858,38 @@ type ProjectResult {
   platform: String
 
   apiKeys: [ProjectApiKeyResult]
+
+  contributors: [ProjectContributorResult]
+}
+
+type ProjectUsageByDayResult {
+  date: String
+
+  total: Int
+
+  unique: Int
+}
+
+type ProjectUsageByRouteResult {
+  route: String
+
+  total: Int
+
+  unique: Int
 }
 
 type ProjectUsageResult {
-  text: String
+  summary: ProjectUsageSummaryResult
 
-  uniqueInstallCount: Int
+  usageByDay: [ProjectUsageByDayResult]
 
-  totalInstallCount: Int
+  usageByRoute: [ProjectUsageByRouteResult]
+}
+
+type ProjectUsageSummaryResult {
+  uniqueUsage: Int
+
+  totalUsage: Int
 }
 
 input PublishFrameInput {
@@ -921,37 +897,22 @@ input PublishFrameInput {
 }
 
 type Query {
-  """
-  ping
-  """
   ping: String
 
-  """
-  user
-  """
   user: UserResult
 
-  """
-  organization
-  """
   organizations: [OrganizationResult]
 
-  """
-  project
-  """
+  organization(id: String!): OrganizationResult
+
   project(id: String!, organizationId: String!): ProjectResult
 
   projects(organizationId: String!): [ProjectResult]
 
-  projectUsageByRoute(id: String!, organizationId: String!, from: String!, to: String!, developmentMode: Boolean!): [ProjectUsageResult]
-
-  projectUsageByTotal(id: String!, organizationId: String!, from: String!, to: String!, developmentMode: Boolean!): [ProjectUsageResult]
+  projectUsage(projectId: String!, organizationId: String!, from: String!, to: String!, developmentMode: Boolean!): ProjectUsageResult
 
   projectApiKeys(projectId: String!, organizationId: String!): [ProjectApiKeyResult]
 
-  """
-  frame
-  """
   scaffold: ScaffoldResult
 
   frame(route: String!): FrameResult
@@ -964,33 +925,23 @@ type Query {
 
   frameTypes: [FrameTypeResult]
 
-  """
-  block
-  """
   blockById(frameId: String!, blockId: String!): BlockResult
 
   blockByKey(frameId: String!, blockKey: String!): BlockResult
 
   blocks(frameId: String!): [BlockResult]
 
-  """
-  variable
-  """
   variables(frameId: String!): [VariableResult]
 
-  """
-  action
-  """
   actions(frameId: String!): [ActionResult]
 
   actionTriggerById(frameId: String!, actionId: String!, actionTriggerId: String!): ActionTriggerResult
 
-  """
-  integration
-  """
   integration(integrationId: String!, organizationId: String!): IntegrationResult
 
   integrations(organizationId: String!, kind: String!, platformSupport: String!, page: Int!, limit: Int!): [IntegrationResult]
+
+  integrationVersions(organizationId: String!, keyType: String!, platformSupport: String!, page: Int!, limit: Int!): [IntegrationResult]
 
   integrationProperties(integrationId: String!, organizationId: String!): [IntegrationPropertyResult]
 
@@ -1000,19 +951,11 @@ type Query {
 
   integrationSlots(integrationId: String!, organizationId: String!): [IntegrationSlotResult]
 
-  """
-  integration installation
-  """
-  integrationCheckInstallation(integrationId: String!, projectId: String!, organizationId: String!): IntegrationProjectResult
-
   integrationsInstalled(projectId: String!, organizationId: String!, kind: String!): [IntegrationProjectResult]
 
-  """
-  localization
-  """
   localizations(languageCode: String): LocalizationResult
 
-  localizationsProduction(languageCode: String): LocalizationResult
+  localizationsProduction(languageCode: String!): LocalizationResult
 
   localizationProductionChecksum(languageCode: String!): LocalizationChecksumResult
 
@@ -1028,7 +971,7 @@ type ScaffoldResult {
 }
 
 """
-Built-in String
+The `String`scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 """
 scalar String
 
@@ -1076,6 +1019,8 @@ input SyncIntegrationInput {
   organizationId: String!
 
   version: Int!
+
+  versionName: String!
 
   deprecated: Boolean
 
@@ -1167,8 +1112,6 @@ input UpdateBlockKeyInput {
 }
 
 input UpdateBlockPositionInput {
-  frameId: String!
-
   blockId: String!
 
   parentId: String!
@@ -1186,10 +1129,10 @@ input UpdateBlockPropertiesInput {
   properties: [BlockPropertyInput]!
 }
 
-input UpdateBlocksInput {
+input UpdateBlocksPositionInput {
   frameId: String!
 
-  blocks: [BlockInput]!
+  blocksPosition: [UpdateBlockPositionInput]!
 }
 
 input UpdateFrameInput {
@@ -1212,12 +1155,6 @@ input UpdateLocalizationInput {
   languageCode: String!
 
   value: String!
-}
-
-input UpdateOrganizationInput {
-  id: String!
-
-  name: String!
 }
 
 input UpdateProjectInput {
@@ -1284,10 +1221,12 @@ type VariableResult {
   type: String
 }
 
+"""
+A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.
+
+In some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.
+"""
 type __Directive {
-  """
-  The __Directive type represents a Directive that a server supports.
-  """
   name: String!
 
   description: String
@@ -1300,105 +1239,108 @@ type __Directive {
 }
 
 """
-An enum describing valid locations where a directive can be placed
+A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.
 """
 enum __DirectiveLocation {
   """
-  Indicates the directive is valid on queries.
+  Location adjacent to a query operation.
   """
   QUERY
 
   """
-  Indicates the directive is valid on mutations.
+  Location adjacent to a mutation operation.
   """
   MUTATION
 
   """
-  Indicates the directive is valid on subscriptions.
+  Location adjacent to a subscription operation.
   """
   SUBSCRIPTION
 
   """
-  Indicates the directive is valid on fields.
+  Location adjacent to a field.
   """
   FIELD
 
   """
-  Indicates the directive is valid on fragment definitions.
+  Location adjacent to a fragment definition.
   """
   FRAGMENT_DEFINITION
 
   """
-  Indicates the directive is valid on fragment spreads.
+  Location adjacent to a fragment spread.
   """
   FRAGMENT_SPREAD
 
   """
-  Indicates the directive is valid on inline fragments.
+  Location adjacent to an inline fragment.
   """
   INLINE_FRAGMENT
 
   """
-  Indicates the directive is valid on variable definitions.
+  Location adjacent to a variable definition.
   """
   VARIABLE_DEFINITION
 
   """
-  Indicates the directive is valid on a schema SDL definition.
+  Location adjacent to a schema definition.
   """
   SCHEMA
 
   """
-  Indicates the directive is valid on a scalar SDL definition.
+  Location adjacent to a scalar definition.
   """
   SCALAR
 
   """
-  Indicates the directive is valid on an object SDL definition.
+  Location adjacent to an object type definition.
   """
   OBJECT
 
   """
-  Indicates the directive is valid on a field SDL definition.
+  Location adjacent to a field definition.
   """
   FIELD_DEFINITION
 
   """
-  Indicates the directive is valid on a field argument SDL definition.
+  Location adjacent to an argument definition.
   """
   ARGUMENT_DEFINITION
 
   """
-  Indicates the directive is valid on an interface SDL definition.
+  Location adjacent to an interface definition.
   """
   INTERFACE
 
   """
-  Indicates the directive is valid on an union SDL definition.
+  Location adjacent to a union definition.
   """
   UNION
 
   """
-  Indicates the directive is valid on an enum SDL definition.
+  Location adjacent to an enum definition.
   """
   ENUM
 
   """
-  Indicates the directive is valid on an enum value SDL definition.
+  Location adjacent to an enum value definition.
   """
   ENUM_VALUE
 
   """
-  Indicates the directive is valid on an input object SDL definition.
+  Location adjacent to an input object type definition.
   """
   INPUT_OBJECT
 
   """
-  Indicates the directive is valid on an input object field SDL definition.
+  Location adjacent to an input object field definition.
   """
   INPUT_FIELD_DEFINITION
 }
 
+"""
+One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.
+"""
 type __EnumValue {
   name: String!
 
@@ -1409,6 +1351,9 @@ type __EnumValue {
   deprecationReason: String
 }
 
+"""
+Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.
+"""
 type __Field {
   name: String!
 
@@ -1423,6 +1368,9 @@ type __Field {
   deprecationReason: String
 }
 
+"""
+Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
+"""
 type __InputValue {
   name: String!
 
@@ -1430,15 +1378,18 @@ type __InputValue {
 
   type: __Type!
 
+  """
+  A GraphQL-formatted string representing the default value for this input value.
+  """
   defaultValue: String
 
-  isDeprecated: Boolean
+  isDeprecated: Boolean!
 
   deprecationReason: String
 }
 
 """
-A GraphQL Introspection defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, the entry points for query, mutation, and subscription operations.
+A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.
 """
 type __Schema {
   description: String
@@ -1459,22 +1410,29 @@ type __Schema {
   mutationType: __Type
 
   """
-  'A list of all directives supported by this server.
-  """
-  directives: [__Directive!]!
-
-  """
-  'If this server support subscription, the type that subscription operations will be rooted at.
+  If this server support subscription, the type that subscription operations will be rooted at.
   """
   subscriptionType: __Type
+
+  """
+  A list of all directives supported by this server.
+  """
+  directives: [__Directive!]!
 }
 
+"""
+The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+
+Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
+"""
 type __Type {
   kind: __TypeKind!
 
   name: String
 
   description: String
+
+  specifiedByURL: String
 
   fields(includeDeprecated: Boolean = false): [__Field!]
 
@@ -1488,22 +1446,15 @@ type __Type {
 
   ofType: __Type
 
-  """
-  This field is considered experimental because it has not yet been ratified in the graphql specification
-  """
   isOneOf: Boolean
-
-  specifiedByURL: String
-
-  specifiedByUrl: String @deprecated(reason: "This legacy name has been replaced by `specifiedByURL`")
 }
 
 """
-An enum describing what kind of type a given __Type is
+An enum describing what kind of type a given `__Type` is.
 """
 enum __TypeKind {
   """
-  Indicates this type is a scalar. 'specifiedByURL' is a valid field
+  Indicates this type is a scalar.
   """
   SCALAR
 
@@ -1513,7 +1464,7 @@ enum __TypeKind {
   OBJECT
 
   """
-  Indicates this type is an interface. `fields` and `possibleTypes` are valid fields.
+  Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields.
   """
   INTERFACE
 
@@ -1544,9 +1495,24 @@ enum __TypeKind {
 }
 
 """
-Directs the executor to include this field or fragment only when the `if` argument is true
+Directs the executor to defer this fragment when the `if` argument is true or undefined.
+"""
+directive @defer ("Deferred when true or undefined." if: Boolean = true, "Unique name" label: String) on FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Marks an element of a GraphQL schema as no longer supported.
+"""
+directive @deprecated ("Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https:\/\/commonmark.org\/)." reason: String = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|INPUT_FIELD_DEFINITION|ENUM_VALUE
+
+"""
+Directs the executor to include this field or fragment only when the `if` argument is true.
 """
 directive @include ("Included when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
+
+"""
+Indicates exactly one field must be supplied and this field must not be `null`.
+"""
+directive @oneOf on INPUT_OBJECT
 
 """
 Directs the executor to skip this field or fragment when the `if` argument is true.
@@ -1554,19 +1520,9 @@ Directs the executor to skip this field or fragment when the `if` argument is tr
 directive @skip ("Skipped when true." if: Boolean!) on FIELD|FRAGMENT_SPREAD|INLINE_FRAGMENT
 
 """
-Marks the field, argument, input field or enum value as deprecated
+Exposes a URL that specifies the behavior of this scalar.
 """
-directive @deprecated ("The reason for the deprecation" reason: String = "No longer supported") on FIELD_DEFINITION|ARGUMENT_DEFINITION|ENUM_VALUE|INPUT_FIELD_DEFINITION
-
-"""
-Exposes a URL that specifies the behaviour of this scalar.
-"""
-directive @specifiedBy ("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
-
-"""
-Indicates an Input Object is a OneOf Input Object.
-"""
-directive @oneOf on INPUT_OBJECT
+directive @specifiedBy ("The URL that specifies the behavior of this scalar." url: String!) on SCALAR
 
 schema {
   query: Query
