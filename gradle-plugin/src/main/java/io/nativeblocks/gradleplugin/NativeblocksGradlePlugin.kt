@@ -5,8 +5,8 @@ import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.google.devtools.ksp.gradle.KspExtension
-import io.nativeblocks.gradleplugin.integration.IntegrationRepository
-import kotlinx.coroutines.runBlocking
+import io.nativeblocks.gradleplugin.tasks.NativeblocksPrepareSchemaTask
+import io.nativeblocks.gradleplugin.tasks.NativeblocksSyncTask
 import kotlinx.serialization.json.Json
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -67,38 +67,34 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
 
         project.extensions.findByType(KspExtension::class.java)?.apply {
             arg("basePackageName", GlobalState.basePackageName ?: "")
-            arg("moduleName", GlobalState.moduleName ?: "")
+            arg("moduleName", GlobalState.moduleName?.capitalized() ?: "")
         }
     }
 
     private fun registerTask(project: Project, config: NativeblocksConfig, flavor: String) {
-        project.tasks.register("nativeblocksSync$flavor") {
-            GlobalState.endpoint = config.endpoint
-            GlobalState.authToken = config.authToken
-            GlobalState.organizationId = config.organizationId
-            GlobalState.basePackageName = project.namespace()
-            GlobalState.moduleName = project.name
+        val shouldBuild = project.hasProperty("nativeblocks.build") &&
+                project.property("nativeblocks.build").toString().toBoolean()
 
-            if (config.endpoint.isEmpty() ||
-                config.authToken.isEmpty() ||
-                config.organizationId.isEmpty()
-            ) {
-                throw GradleException("Please make sure endpoint, authToken and organizationId are provided in nativeblocks.json")
-            }
+        val assembleTaskName = "assemble$flavor"
 
-            val integrationRepository = IntegrationRepository()
-            runBlocking {
-                integrationRepository.syncIntegration(project, flavor)
+        project.tasks.register("nativeblocksSync$flavor", NativeblocksSyncTask::class.java) {
+            it.config.set(config)
+            it.flavor.set(flavor)
+            it.basePackageName.set(project.namespace())
+            it.moduleName.set(project.name)
+        }.also { task ->
+            if (shouldBuild) {
+                task.configure { it.dependsOn(assembleTaskName) }
             }
         }
 
-        project.tasks.register("nativeblocksPrepareSchema$flavor") {
-            GlobalState.basePackageName = project.namespace()
-            GlobalState.moduleName = project.name
-
-            val integrationRepository = IntegrationRepository()
-            runBlocking {
-                integrationRepository.prepareSchema(project, flavor)
+        project.tasks.register("nativeblocksPrepareSchema$flavor", NativeblocksPrepareSchemaTask::class.java) {
+            it.flavor.set(flavor)
+            it.basePackageName.set(project.namespace())
+            it.moduleName.set(project.name)
+        }.also { task ->
+            if (shouldBuild) {
+                task.configure { it.dependsOn(assembleTaskName) }
             }
         }
     }

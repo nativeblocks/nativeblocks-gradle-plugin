@@ -1,10 +1,11 @@
 package io.nativeblocks.gradleplugin
 
 import kotlinx.serialization.Serializable
+import java.io.Serializable as JavaSerializable
 
 @Serializable
-internal data class NativeblocksConfig(
+data class NativeblocksConfig(
     val endpoint: String = "",
     val authToken: String = "",
     val organizationId: String = ""
-)
+) : JavaSerializable
