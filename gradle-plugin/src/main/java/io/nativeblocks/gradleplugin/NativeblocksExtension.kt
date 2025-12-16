@@ -13,10 +13,4 @@ open class NativeblocksExtension {
     @Input
     var organizationId: String? = null
 
-    @Input
-    var basePackageName: String? = null
-
-    @Input
-    var moduleName: String? = null
-
 }

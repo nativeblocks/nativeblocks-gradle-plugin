@@ -79,6 +79,8 @@ dependencies {
     implementation("com.apollographql.apollo3:apollo-runtime:3.8.2")
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
     compileOnly("com.android.tools.build:gradle:8.4.1")
+    //==========================KSP===========================
+    compileOnly("com.google.devtools.ksp:symbol-processing-gradle-plugin:1.9.24-1.0.20")
 }
 
 object ModuleInfo {

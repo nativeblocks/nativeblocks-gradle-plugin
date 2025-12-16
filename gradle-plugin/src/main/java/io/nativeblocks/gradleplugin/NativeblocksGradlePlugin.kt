@@ -4,8 +4,8 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
+import com.google.devtools.ksp.gradle.KspExtension
 import io.nativeblocks.gradleplugin.integration.IntegrationRepository
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
@@ -19,6 +19,12 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val extension = project.extensions.create(name, NativeblocksExtension::class.java)
 
+        project.plugins.withId("com.google.devtools.ksp") {
+            project.afterEvaluate {
+                configureKsp(project)
+            }
+        }
+
         val supportedComponents =
             listOf(project.androidAppComponent(), project.androidLibraryComponent())
         supportedComponents.forEach { component ->
@@ -29,13 +35,23 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
         }
     }
 
+    private fun configureKsp(project: Project) {
+        val basePackageName = project.namespace()
+        val moduleName = project.name
+
+        project.extensions.findByType(KspExtension::class.java)?.apply {
+            arg("basePackageName", basePackageName ?: "")
+            arg("moduleName", moduleName ?: "")
+        }
+    }
+
     private fun registerTask(project: Project, extension: NativeblocksExtension, flavor: String) {
         project.tasks.register("nativeblocksSync$flavor") {
             GlobalState.endpoint = extension.endpoint
             GlobalState.authToken = extension.authToken
             GlobalState.organizationId = extension.organizationId
-            GlobalState.basePackageName = extension.basePackageName
-            GlobalState.moduleName = extension.moduleName
+            GlobalState.basePackageName = project.namespace()
+            GlobalState.moduleName = project.name
 
             if (GlobalState.endpoint.isNullOrEmpty() ||
                 GlobalState.authToken.isNullOrEmpty() ||
@@ -56,8 +72,8 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
             }
         }
         project.tasks.register("nativeblocksPrepareSchema$flavor") {
-            GlobalState.basePackageName = extension.basePackageName
-            GlobalState.moduleName = extension.moduleName
+            GlobalState.basePackageName = project.namespace()
+            GlobalState.moduleName = project.name
 
             if (GlobalState.basePackageName.isNullOrEmpty() ||
                 GlobalState.moduleName.isNullOrEmpty()
@@ -79,8 +95,18 @@ private fun Project.androidAppComponent(): ApplicationAndroidComponentsExtension
 private fun Project.androidLibraryComponent(): LibraryAndroidComponentsExtension? =
     extensions.findByType(LibraryAndroidComponentsExtension::class.java)
 
-private fun Project.androidProject(): AppExtension? =
-    extensions.findByType(AppExtension::class.java)
-
-private fun Project.libraryProject(): LibraryExtension? =
-    extensions.findByType(LibraryExtension::class.java)
+private fun Project.namespace(): String? {
+    val androidExtension = project.extensions.findByName("android")
+        ?: throw GradleException("Could not retrieve namespace from Android extension")
+    return when (androidExtension) {
+        is AppExtension -> androidExtension.namespace
+        is LibraryExtension -> androidExtension.namespace
+        else -> {
+            try {
+                androidExtension::class.java.getMethod("getNamespace").invoke(androidExtension) as? String
+            } catch (e: Exception) {
+                throw GradleException("Could not retrieve namespace from Android extension: ${e.message}")
+            }
+        }
+    }
+}
