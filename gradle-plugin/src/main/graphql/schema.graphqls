@@ -1,307 +1,309 @@
 type ActionResult {
-  id: String
+    id: String
 
-  key: String
+    key: String
 
-  event: String
+    event: String
 
-  triggers: [ActionTriggerResult]
+    triggers: [ActionTriggerResult]
 }
 
 input ActionTriggerDataInput {
-  key: String!
+    key: String!
 
-  value: String!
+    value: String!
 }
 
 type ActionTriggerDataResult {
-  key: String
+    key: String
 
-  value: String
+    value: String
 
-  type: String
+    type: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type ActionTriggerEventResult {
-  event: String
+    event: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 input ActionTriggerPropertiesInput {
-  key: String!
+    key: String!
 
-  value: String!
+    value: String!
 }
 
 type ActionTriggerPropertyResult {
-  key: String
+    key: String
 
-  value: String
+    value: String
 
-  type: String
+    type: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 
-  valuePicker: String
+    valuePicker: String
 
-  valuePickerGroup: String
+    valuePickerGroup: String
 
-  valuePickerOptions: String
+    valuePickerOptions: String
 }
 
 type ActionTriggerResult {
-  id: String
+    id: String
 
-  name: String
+    name: String
 
-  parentId: String
+    parentId: String
 
-  keyType: String!
+    keyType: String!
 
-  then: String!
+    then: String!
 
-  properties: [ActionTriggerPropertyResult]
+    properties: [ActionTriggerPropertyResult]
 
-  events: [ActionTriggerEventResult]
+    events: [ActionTriggerEventResult]
 
-  data: [ActionTriggerDataResult]
+    data: [ActionTriggerDataResult]
 
-  integrationVersion: Int
+    integrationVersion: Int
 
-  integrationVersionName: String
+    integrationVersionName: String
 
-  integrationDeprecated: Boolean
+    integrationDeprecated: Boolean
 
-  integrationDeprecatedReason: String
+    integrationDeprecatedReason: String
 }
 
 input AddActionInput {
-  frameId: String!
+    frameId: String!
 
-  key: String!
+    key: String!
 
-  event: String!
+    event: String!
 }
 
 input AddActionTriggerInput {
-  name: String!
+    name: String!
 
-  parentId: String!
+    parentId: String!
 
-  then: String!
+    then: String!
 
-  frameId: String!
+    frameId: String!
 
-  actionId: String!
+    actionId: String!
 
-  integrationId: String!
+    integrationId: String!
 }
 
 input AddAvailableLanguageInput {
-  code: String
+    code: String
 
-  name: String
+    name: String
 }
 
 input AddBlockInput {
-  parentId: String!
+    parentId: String!
 
-  key: String!
+    key: String!
 
-  visibilityKey: String!
+    visibilityKey: String!
 
-  position: Int!
+    position: Int!
 
-  slot: String!
+    slot: String!
 
-  frameId: String!
+    frameId: String!
 
-  integrationId: String!
+    integrationId: String!
 }
 
 input AddFrameInput {
-  name: String!
+    name: String!
 
-  type: String!
+    type: String!
 
-  route: String!
+    route: String!
 
-  isStarter: Boolean!
+    platform: String!
 
-  routeArguments: [FrameNavigationArgumentInput]
+    renderingType: String!
+
+    routeArguments: [FrameNavigationArgumentInput]
 }
 
 input AddLanguageInput {
-  code: String!
+    code: String!
 }
 
 input AddLocalizationInput {
-  key: String!
+    key: String!
 }
 
 input AddProjectApiKeyInput {
-  name: String!
+    name: String!
 
-  projectId: String!
+    projectId: String!
 
-  organizationId: String!
+    organizationId: String!
 }
 
 input AddVariableInput {
-  frameId: String!
+    frameId: String!
 
-  key: String!
+    key: String!
 
-  value: String!
+    value: String!
 
-  type: String!
+    type: String!
 }
 
 type AvailableLanguageResult {
-  id: String
+    id: String
 
-  code: String
+    code: String
 
-  name: String
+    name: String
 }
 
 input BlockDataInput {
-  key: String!
+    key: String!
 
-  value: String
+    value: String
 }
 
 type BlockDataResult {
-  key: String
+    key: String
 
-  value: String
+    value: String
 
-  type: String
+    type: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type BlockEventResult {
-  event: String
+    event: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 input BlockInput {
-  id: String
+    id: String
 
-  parentId: String
+    parentId: String
 
-  keyType: String
+    keyType: String
 
-  key: String
+    key: String
 
-  visibilityKey: String
+    visibilityKey: String
 
-  slot: String
+    slot: String
 
-  position: Int
+    position: Int
 
-  integrationVersion: Int
+    integrationVersion: Int
 }
 
 input BlockPropertyInput {
-  key: String!
+    key: String!
 
-  valueMobile: String
+    valueMobile: String
 
-  valueTablet: String
+    valueTablet: String
 
-  valueDesktop: String
+    valueDesktop: String
 }
 
 type BlockPropertyResult {
-  key: String
+    key: String
 
-  valueMobile: String
+    valueMobile: String
 
-  valueTablet: String
+    valueTablet: String
 
-  valueDesktop: String
+    valueDesktop: String
 
-  type: String
+    type: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 
-  valuePicker: String
+    valuePicker: String
 
-  valuePickerGroup: String
+    valuePickerGroup: String
 
-  valuePickerOptions: String
+    valuePickerOptions: String
 }
 
 type BlockResult {
-  id: String
+    id: String
 
-  parentId: String
+    parentId: String
 
-  keyType: String
+    keyType: String
 
-  key: String
+    key: String
 
-  visibilityKey: String
+    visibilityKey: String
 
-  slot: String
+    slot: String
 
-  position: Int
+    position: Int
 
-  data: [BlockDataResult]
+    data: [BlockDataResult]
 
-  properties: [BlockPropertyResult]
+    properties: [BlockPropertyResult]
 
-  events: [BlockEventResult]
+    events: [BlockEventResult]
 
-  slots: [BlockSlotResult]
+    slots: [BlockSlotResult]
 
-  integrationVersion: Int
+    integrationVersion: Int
 
-  integrationVersionName: String
+    integrationVersionName: String
 
-  integrationDeprecated: Boolean
+    integrationDeprecated: Boolean
 
-  integrationDeprecatedReason: String
+    integrationDeprecatedReason: String
 }
 
 type BlockSlotResult {
-  slot: String
+    slot: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 """
@@ -310,87 +312,227 @@ The `Boolean` scalar type represents `true` or `false`.
 scalar Boolean
 
 input ChangeContributorPermissionInput {
-  organizationId: String!
+    organizationId: String!
 
-  projectId: String!
+    projectId: String!
 
-  contributorEmail: String!
+    contributorEmail: String!
 
-  contributorPermission: String!
+    contributorPermission: String!
+}
+
+input ConditionalExperimentConfigInput {
+    items: [ConditionalExperimentConfigItemInput!]!
+}
+
+input ConditionalExperimentConfigItemInput {
+    value: String!
+
+    segmentId: String!
+}
+
+type ConditionalExperimentConfigItemResult {
+    value: String!
+
+    segmentId: String!
+}
+
+type ConditionalExperimentConfigResult {
+    items: [ConditionalExperimentConfigItemResult!]!
+}
+
+input ConditionalReleaseConfigInput {
+    items: [ConditionalReleaseConfigItemInput!]!
+}
+
+input ConditionalReleaseConfigItemInput {
+    snapshotTag: String!
+
+    segmentId: String!
+}
+
+type ConditionalReleaseConfigItemResult {
+    snapshotTag: String!
+
+    segmentId: String!
+}
+
+type ConditionalReleaseConfigResult {
+    items: [ConditionalReleaseConfigItemResult!]!
+}
+
+input CreateExperimentInput {
+    key: String!
+
+    platform: String!
+
+    variableType: String!
 }
 
 input CreateProjectInput {
-  name: String!
+    name: String!
 
-  platform: String!
+    organizationId: String!
+}
 
-  organizationId: String!
+input CreateSegmentInput {
+    name: String!
+
+    description: String
+
+    condition: String!
 }
 
 input DeleteActionInput {
-  frameId: String!
+    frameId: String!
 
-  actionId: String!
+    actionId: String!
 }
 
 input DeleteActionTriggerInput {
-  frameId: String!
+    frameId: String!
 
-  actionId: String!
+    actionId: String!
 
-  actionTriggerId: String!
+    actionTriggerId: String!
 }
 
 input DeleteBlockInput {
-  frameId: String!
+    frameId: String!
 
-  blockId: String!
+    blockId: String!
+}
+
+input DeleteExperimentInput {
+    key: String!
+
+    platform: String!
 }
 
 input DeleteFrameInput {
-  route: String!
+    frameId: String!
 }
 
 input DeleteIntegrationInput {
-  integrationId: String!
+    integrationId: String!
 
-  projectId: String!
+    projectId: String!
 
-  organizationId: String!
+    organizationId: String!
 }
 
 input DeleteLocalizationInput {
-  key: String!
+    key: String!
 }
 
 input DeleteProjectApiKeyInput {
-  apiKey: String!
+    apiKey: String!
 
-  projectId: String!
+    projectId: String!
 
-  organizationId: String!
+    organizationId: String!
 }
 
 input DeleteProjectInput {
-  id: String!
+    id: String!
 
-  organizationId: String!
+    organizationId: String!
+}
+
+input DeleteSegmentInput {
+    id: String!
 }
 
 input DeleteVariableInput {
-  frameId: String!
+    frameId: String!
 
-  key: String!
+    key: String!
+}
+
+input DirectExperimentConfigInput {
+    value: String!
+}
+
+type DirectExperimentConfigResult {
+    value: String!
+}
+
+input DirectReleaseConfigInput {
+    snapshotTag: String!
+}
+
+type DirectReleaseConfigResult {
+    snapshotTag: String!
+}
+
+input DslInput {
+    content: String!
 }
 
 input DuplicateBlockInput {
-  originBlockId: String!
+    originBlockId: String!
 
-  key: String!
+    key: String!
 
-  visibilityKey: String!
+    visibilityKey: String!
 
-  frameId: String!
+    frameId: String!
+}
+
+input DuplicateFrameInput {
+    id: String!
+
+    name: String!
+
+    route: String!
+
+    platform: String!
+}
+
+input ExperimentConfigInput {
+    direct: DirectExperimentConfigInput
+
+    percentage: PercentageExperimentConfigInput
+
+    conditional: ConditionalExperimentConfigInput
+}
+
+union ExperimentConfigResult = DirectExperimentConfigResult|PercentageExperimentConfigResult|ConditionalExperimentConfigResult
+
+input ExperimentKeyValueInput {
+    key: String!
+
+    value: String!
+}
+
+input ExperimentParameterInput {
+    variables: [ExperimentKeyValueInput]!
+}
+
+type ExperimentResult {
+    id: String!
+
+    key: String!
+
+    platform: String!
+
+    type: String!
+
+    variableType: String!
+
+    enable: Boolean!
+
+    fallback: String!
+
+    config: ExperimentConfigResult!
+}
+
+type ExperimentValueResult {
+    key: String!
+
+    value: String!
+
+    variableType: String!
 }
 
 """
@@ -399,67 +541,91 @@ The `Float` scalar type represents signed double-precision fractional values as 
 scalar Float
 
 type FrameChecksumResult {
-  id: String
+    checksum: String
 
-  checksum: String
+    route: String
 
-  name: String
+    renderingType: String
 
-  route: String
+    id: String @deprecated(reason: "No longer supported")
+
+    name: String @deprecated(reason: "No longer supported")
+}
+
+input FrameKeyValueInput {
+    key: String!
+
+    value: String!
 }
 
 input FrameNavigationArgumentInput {
-  name: String
+    name: String
 }
 
 type FrameNavigationArgumentResult {
-  name: String
+    name: String
+}
+
+input FrameParameterInput {
+    variables: [FrameKeyValueInput]!
 }
 
 type FrameResult {
-  id: String
+    id: String
 
-  checksum: String
+    checksum: String
 
-  name: String
+    name: String
 
-  type: String
+    type: String
 
-  route: String
+    route: String
 
-  isStarter: Boolean
+    isStarter: Boolean @deprecated(reason: "No longer supported")
 
-  routeArguments: [FrameNavigationArgumentResult]
+    renderingType: String
 
-  variables: [VariableResult]
+    routeArguments: [FrameNavigationArgumentResult]
 
-  blocks: [BlockResult]
+    variables: [VariableResult]
 
-  actions: [ActionResult]
+    blocks: [BlockResult]
+
+    actions: [ActionResult]
 }
 
 type FrameShortResult {
-  id: String
+    id: String
 
-  checksum: String
+    checksum: String
 
-  name: String
+    name: String
 
-  type: String
+    type: String
 
-  route: String
+    route: String
 
-  isStarter: Boolean
+    isStarter: Boolean
 
-  routeArguments: [FrameNavigationArgumentResult]
+    platform: String
+
+    renderingType: String
+
+    routeArguments: [FrameNavigationArgumentResult]
+}
+
+type FrameSnapshotResult {
+    route: String
+
+    tag: String
 }
 
 type FrameTypeResult {
-  id: String
+    id: String
 
-  text: String
+    text: String
 
-  isStarter: Boolean
+    isStarter: Boolean
 }
 
 """
@@ -468,11 +634,11 @@ The `ID` scalar type represents a unique identifier, often used to refetch an ob
 scalar ID
 
 input InstallIntegrationInput {
-  integrationId: String!
+    integrationId: String!
 
-  projectId: String!
+    projectId: String!
 
-  organizationId: String!
+    organizationId: String!
 }
 
 """
@@ -481,493 +647,625 @@ The `Int` scalar type represents non-fractional signed whole numeric values. Int
 scalar Int
 
 input IntegrationDataInput {
-  key: String!
+    key: String!
 
-  type: String!
+    type: String!
 
-  description: String!
+    description: String!
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type IntegrationDataResult {
-  key: String
+    key: String
 
-  type: String
+    type: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 input IntegrationEventInput {
-  event: String!
+    event: String!
 
-  description: String!
+    description: String!
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type IntegrationEventResult {
-  event: String
+    event: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type IntegrationProjectResult {
-  id: String
+    id: String
 
-  projectId: String
+    projectId: String
 
-  integrationId: String
+    integrationId: String
 
-  integrationName: String
+    integrationName: String
 
-  integrationDescription: String
+    integrationDescription: String
 
-  integrationKeyType: String
+    integrationKeyType: String
 
-  integrationPlatformSupport: String
+    integrationPlatformSupport: String
 
-  integrationKind: String
+    integrationKind: String
 
-  integrationImageIcon: String
+    integrationImageIcon: String
 
-  integrationPrice: Int
+    integrationPrice: Int
 
-  integrationVersion: Int
+    integrationVersion: Int
 
-  integrationVersionName: String
+    integrationVersionName: String
 
-  integrationDeprecated: Boolean
+    integrationDeprecated: Boolean
 
-  integrationDeprecatedReason: String
+    integrationDeprecatedReason: String
 
-  integrationDocumentation: String
+    integrationDocumentation: String
 
-  integrationPublic: Boolean
+    integrationPublic: Boolean
 
-  integrationPaymentRequire: Boolean
+    integrationPaymentRequire: Boolean
 
-  integrationProperties: [IntegrationPropertyResult]
+    integrationProperties: [IntegrationPropertyResult]
 
-  integrationEvents: [IntegrationEventResult]
+    integrationEvents: [IntegrationEventResult]
 
-  integrationData: [IntegrationDataResult]
+    integrationData: [IntegrationDataResult]
 
-  integrationSlots: [IntegrationSlotResult]
+    integrationSlots: [IntegrationSlotResult]
 
-  integrationOrganizationId: String
+    integrationOrganizationId: String
 
-  hasUpdate: Boolean
+    hasUpdate: Boolean
 }
 
 input IntegrationPropertyInput {
-  key: String!
+    key: String!
 
-  value: String
+    value: String
 
-  type: String!
+    type: String!
 
-  description: String!
+    description: String!
 
-  valuePicker: String!
+    valuePicker: String!
 
-  valuePickerGroup: String!
+    valuePickerGroup: String!
 
-  valuePickerOptions: String!
+    valuePickerOptions: String!
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type IntegrationPropertyResult {
-  key: String
+    key: String
 
-  value: String
+    value: String
 
-  type: String
+    type: String
 
-  description: String
+    description: String
 
-  valuePicker: String
+    valuePicker: String
 
-  valuePickerGroup: String
+    valuePickerGroup: String
 
-  valuePickerOptions: String
+    valuePickerOptions: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type IntegrationResult {
-  id: String
+    id: String
 
-  name: String
+    name: String
 
-  keyType: String
+    keyType: String
 
-  imageIcon: String
+    imageIcon: String
 
-  price: Int
+    price: Int
 
-  version: Int
+    version: Int
 
-  versionName: String
+    versionName: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 
-  description: String
+    description: String
 
-  documentation: String
+    documentation: String
 
-  platformSupport: String
+    platformSupport: String
 
-  kind: String
+    kind: String
 
-  public: Boolean
+    public: Boolean
 
-  paymentRequire: Boolean
+    paymentRequire: Boolean
 
-  manageable: Boolean
+    manageable: Boolean
 
-  properties: [IntegrationPropertyResult]
+    properties: [IntegrationPropertyResult]
 
-  events: [IntegrationEventResult]
+    events: [IntegrationEventResult]
 
-  data: [IntegrationDataResult]
+    data: [IntegrationDataResult]
 
-  slots: [IntegrationSlotResult]
+    slots: [IntegrationSlotResult]
 }
 
 input IntegrationSlotInput {
-  slot: String!
+    slot: String!
 
-  description: String!
+    description: String!
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type IntegrationSlotResult {
-  slot: String
+    slot: String
 
-  description: String
+    description: String
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 type LanguageResult {
-  id: String
+    id: String
 
-  code: String
+    code: String
 
-  name: String
+    name: String
 
-  projectId: String
+    projectId: String
 }
 
 type LocalizationChecksumResult {
-  checksum: String
+    checksum: String
 
-  languageCode: String
+    languageCode: String
 
-  projectId: String
+    projectId: String
 }
 
 type LocalizationItemResult {
-  id: String
+    id: String
 
-  key: String
+    key: String
 
-  value: String
+    value: String
 
-  languageCode: String
+    languageCode: String
 
-  languageName: String
+    languageName: String
 }
 
 type LocalizationResult {
-  checksum: String
+    checksum: String
 
-  projectId: String
+    projectId: String
 
-  localizations: [LocalizationItemResult]
+    localizations: [LocalizationItemResult]
 }
 
 type LoginResult {
-  id: String
+    id: String
 
-  username: String
+    username: String
 
-  email: String
+    email: String
 
-  accessToken: String
+    accessToken: String
 }
 
 type Mutation {
-  greeting(name: String!): String
+    greeting(name: String!): String
 
-  authLoginWithNativeblocks(jwt: String!): LoginResult
+    authLoginWithNativeblocks(jwt: String!): LoginResult
 
-  createProject(input: CreateProjectInput!): ProjectResult
+    createProject(input: CreateProjectInput!): ProjectResult
 
-  updateProject(input: UpdateProjectInput!): ProjectResult
+    updateProject(input: UpdateProjectInput!): ProjectResult
 
-  deleteProject(input: DeleteProjectInput!): ProjectResult
+    deleteProject(input: DeleteProjectInput!): ProjectResult
 
-  addProjectApiKey(input: AddProjectApiKeyInput!): ProjectApiKeyResult
+    addProjectApiKey(input: AddProjectApiKeyInput!): ProjectApiKeyResult
 
-  deleteProjectApiKey(input: DeleteProjectApiKeyInput!): ProjectApiKeyResult
+    deleteProjectApiKey(input: DeleteProjectApiKeyInput!): ProjectApiKeyResult
 
-  changeProjectContributorPermission(input: ChangeContributorPermissionInput!): ProjectContributorResult
+    changeProjectContributorPermission(input: ChangeContributorPermissionInput!): ProjectContributorResult
 
-  addFrame(input: AddFrameInput!): FrameShortResult
+    addFrame(input: AddFrameInput!): FrameShortResult
 
-  updateFrame(input: UpdateFrameInput!): FrameShortResult
+    updateFrame(input: UpdateFrameInput!): FrameShortResult
 
-  deleteFrame(input: DeleteFrameInput!): FrameShortResult
+    deleteFrame(input: DeleteFrameInput!): FrameShortResult
 
-  publishFrame(input: PublishFrameInput!): FrameShortResult
+    takeSnapshotFrame(input: TakeSnapshotFrameInput!): FrameSnapshotResult
 
-  syncFrame(input: SyncFrameInput!): FrameShortResult
+    syncSnapshotFrame(input: SyncSnapshotFrameInput!): FrameSnapshotResult
 
-  addBlock(input: AddBlockInput!): BlockResult
+    syncFrame(input: SyncFrameInput!): FrameShortResult
 
-  duplicateBlock(input: DuplicateBlockInput!): BlockResult
+    duplicateFrame(input: DuplicateFrameInput!): FrameShortResult
 
-  updateBlockKey(input: UpdateBlockKeyInput!): BlockResult
+    updateRelease(input: UpdateReleaseInput!): ReleaseResult
 
-  upgradeBlock(input: UpgradeBlockInput!): BlockResult
+    createExperiment(input: CreateExperimentInput!): ExperimentResult
 
-  deleteBlock(input: DeleteBlockInput!): BlockResult
+    updateExperiment(input: UpdateExperimentInput!): ExperimentResult
 
-  updateBlockProperties(input: UpdateBlockPropertiesInput!): BlockResult
+    deleteExperiment(input: DeleteExperimentInput!): ExperimentResult
 
-  updateBlockData(input: UpdateBlockDataInput!): BlockResult
+    createSegment(input: CreateSegmentInput!): SegmentResult
 
-  updateBlocksPosition(input: UpdateBlocksPositionInput!): [BlockResult]
+    updateSegment(input: UpdateSegmentInput!): SegmentResult
 
-  addVariable(input: AddVariableInput!): VariableResult
+    deleteSegment(input: DeleteSegmentInput!): SegmentResult
 
-  updateVariable(input: UpdateVariableInput!): VariableResult
+    updateLambdaCode(input: UpdateLambdaCodeInput!): String
 
-  deleteVariable(input: DeleteVariableInput!): VariableResult
+    addBlock(input: AddBlockInput!): BlockResult
 
-  addAction(input: AddActionInput!): ActionResult
+    duplicateBlock(input: DuplicateBlockInput!): BlockResult
 
-  deleteAction(input: DeleteActionInput!): ActionResult
+    updateBlockKey(input: UpdateBlockKeyInput!): BlockResult
 
-  addActionTrigger(input: AddActionTriggerInput!): ActionTriggerResult
+    upgradeBlock(input: UpgradeBlockInput!): BlockResult
 
-  upgradeActionTrigger(input: UpgradeActionTriggerInput!): ActionTriggerResult
+    deleteBlock(input: DeleteBlockInput!): BlockResult
 
-  deleteActionTrigger(input: DeleteActionTriggerInput!): ActionTriggerResult
+    updateBlockProperties(input: UpdateBlockPropertiesInput!): BlockResult
 
-  updateActionTriggerProperties(input: UpdateActionTriggerPropertiesInput!): ActionTriggerResult
+    updateBlockData(input: UpdateBlockDataInput!): BlockResult
 
-  updateActionTriggerData(input: UpdateActionTriggerDataInput!): ActionTriggerResult
+    updateBlocksPosition(input: UpdateBlocksPositionInput!): [BlockResult]
 
-  updateActionTriggerPosition(input: UpdateActionTriggerPositionInput!): ActionTriggerResult
+    addVariable(input: AddVariableInput!): VariableResult
 
-  updateActionTriggerName(input: UpdateActionTriggerNameInput!): ActionTriggerResult
+    updateVariable(input: UpdateVariableInput!): VariableResult
 
-  syncIntegration(input: SyncIntegrationInput!): IntegrationResult
+    deleteVariable(input: DeleteVariableInput!): VariableResult
 
-  syncIntegrationProperties(input: SyncIntegrationPropertiesInput!): [IntegrationPropertyResult]
+    addAction(input: AddActionInput!): ActionResult
 
-  syncIntegrationEvents(input: SyncIntegrationEventsInput!): [IntegrationEventResult]
+    deleteAction(input: DeleteActionInput!): ActionResult
 
-  syncIntegrationData(input: SyncIntegrationDataInput!): [IntegrationDataResult]
+    addActionTrigger(input: AddActionTriggerInput!): ActionTriggerResult
 
-  syncIntegrationSlots(input: SyncIntegrationSlotsInput!): [IntegrationSlotResult]
+    upgradeActionTrigger(input: UpgradeActionTriggerInput!): ActionTriggerResult
 
-  installIntegration(input: InstallIntegrationInput!): IntegrationProjectResult
+    deleteActionTrigger(input: DeleteActionTriggerInput!): ActionTriggerResult
 
-  upgradeIntegration(input: UpgradeIntegrationInput!): IntegrationProjectResult
+    updateActionTriggerProperties(input: UpdateActionTriggerPropertiesInput!): ActionTriggerResult
 
-  unInstallIntegration(input: UnInstallIntegrationInput!): IntegrationProjectResult
+    updateActionTriggerData(input: UpdateActionTriggerDataInput!): ActionTriggerResult
 
-  addAvailableLanguages(input: AddAvailableLanguageInput!): AvailableLanguageResult
+    updateActionTriggerPosition(input: UpdateActionTriggerPositionInput!): ActionTriggerResult
 
-  addLanguage(input: AddLanguageInput!): LanguageResult
+    updateActionTriggerName(input: UpdateActionTriggerNameInput!): ActionTriggerResult
 
-  addLocalization(input: AddLocalizationInput!): LocalizationItemResult
+    syncIntegration(input: SyncIntegrationInput!): IntegrationResult
 
-  deleteLocalization(input: DeleteLocalizationInput!): LocalizationItemResult
+    syncIntegrationProperties(input: SyncIntegrationPropertiesInput!): [IntegrationPropertyResult]
 
-  updateLocalization(input: UpdateLocalizationInput!): LocalizationItemResult
+    syncIntegrationEvents(input: SyncIntegrationEventsInput!): [IntegrationEventResult]
 
-  publishLocalization: [LocalizationResult]
+    syncIntegrationData(input: SyncIntegrationDataInput!): [IntegrationDataResult]
+
+    syncIntegrationSlots(input: SyncIntegrationSlotsInput!): [IntegrationSlotResult]
+
+    installIntegration(input: InstallIntegrationInput!): IntegrationProjectResult
+
+    upgradeIntegration(input: UpgradeIntegrationInput!): IntegrationProjectResult
+
+    unInstallIntegration(input: UnInstallIntegrationInput!): IntegrationProjectResult
+
+    addAvailableLanguages(input: AddAvailableLanguageInput!): AvailableLanguageResult
+
+    addLanguage(input: AddLanguageInput!): LanguageResult
+
+    addLocalization(input: AddLocalizationInput!): LocalizationItemResult
+
+    deleteLocalization(input: DeleteLocalizationInput!): LocalizationItemResult
+
+    updateLocalization(input: UpdateLocalizationInput!): LocalizationItemResult
+
+    publishLocalization: [LocalizationResult]
+
+    compileDsl(input: DslInput!): String!
 }
 
 type OrganizationContributorResult {
-  role: String
+    role: String
 
-  user: UserResult
+    user: UserResult
 }
 
 type OrganizationResult {
-  id: String
+    id: String
 
-  name: String
+    name: String
 
-  manageable: Boolean
+    manageable: Boolean
 
-  contributors: [OrganizationContributorResult]
+    contributors: [OrganizationContributorResult]
+}
+
+input PercentageExperimentConfigInput {
+    items: [PercentageExperimentConfigItemInput!]!
+}
+
+input PercentageExperimentConfigItemInput {
+    value: String!
+
+    percentage: Float!
+}
+
+type PercentageExperimentConfigItemResult {
+    value: String!
+
+    percentage: Float!
+}
+
+type PercentageExperimentConfigResult {
+    items: [PercentageExperimentConfigItemResult!]!
+}
+
+input PercentageReleaseConfigInput {
+    items: [PercentageReleaseConfigItemInput!]!
+}
+
+input PercentageReleaseConfigItemInput {
+    snapshotTag: String!
+
+    percentage: Float!
+}
+
+type PercentageReleaseConfigItemResult {
+    snapshotTag: String!
+
+    percentage: Float!
+}
+
+type PercentageReleaseConfigResult {
+    items: [PercentageReleaseConfigItemResult!]!
 }
 
 type ProjectApiKeyResult {
-  name: String
+    name: String
 
-  apiKey: String
+    apiKey: String
 
-  expireAt: String
+    expireAt: String
 }
 
 type ProjectContributorResult {
-  permission: String
+    permission: String
 
-  role: String
+    role: String
 
-  user: UserResult
+    user: UserResult
 }
 
 type ProjectResult {
-  id: String
+    id: String
 
-  name: String
+    name: String
 
-  platform: String
+    platform: String @deprecated(reason: "No longer supported")
 
-  apiKeys: [ProjectApiKeyResult]
+    apiKeys: [ProjectApiKeyResult]
 
-  contributors: [ProjectContributorResult]
+    contributors: [ProjectContributorResult]
 }
 
 type ProjectUsageByDayResult {
-  date: String
+    date: String
 
-  total: Int
+    total: Int
 
-  unique: Int
+    unique: Int
 }
 
 type ProjectUsageByRouteResult {
-  route: String
+    route: String
 
-  total: Int
+    platform: String
 
-  unique: Int
+    total: Int
+
+    unique: Int
 }
 
 type ProjectUsageResult {
-  summary: ProjectUsageSummaryResult
+    summary: ProjectUsageSummaryResult
 
-  usageByDay: [ProjectUsageByDayResult]
+    usageByDay: [ProjectUsageByDayResult]
 
-  usageByRoute: [ProjectUsageByRouteResult]
+    usageByRoute: [ProjectUsageByRouteResult]
 }
 
 type ProjectUsageSummaryResult {
-  uniqueUsage: Int
+    uniqueUsage: Int
 
-  totalUsage: Int
-}
-
-input PublishFrameInput {
-  route: String!
+    totalUsage: Int
 }
 
 type Query {
-  ping: String
+    ping: String
 
-  user: UserResult
+    user: UserResult
 
-  organizations: [OrganizationResult]
+    organizations: [OrganizationResult]
 
-  organization(id: String!): OrganizationResult
+    organization(id: String!): OrganizationResult
 
-  project(id: String!, organizationId: String!): ProjectResult
+    project(id: String!, organizationId: String!): ProjectResult
 
-  projects(organizationId: String!): [ProjectResult]
+    projects(organizationId: String!): [ProjectResult]
 
-  projectUsage(projectId: String!, organizationId: String!, from: String!, to: String!, developmentMode: Boolean!): ProjectUsageResult
+    projectUsage(projectId: String!, organizationId: String!, from: String!, to: String!, developmentMode: Boolean!): ProjectUsageResult
 
-  projectApiKeys(projectId: String!, organizationId: String!): [ProjectApiKeyResult]
+    projectApiKeys(projectId: String!, organizationId: String!): [ProjectApiKeyResult]
 
-  scaffold: ScaffoldResult
+    scaffold: ScaffoldResult
 
-  frame(route: String!): FrameResult
+    frameList: ScaffoldResult
 
-  frameProduction(route: String!): FrameResult
+    frame(route: String!, parameter: FrameParameterInput): FrameResult
 
-  frameProductionChecksum(route: String!): FrameChecksumResult
+    frameProduction(route: String!, parameter: FrameParameterInput): FrameResult
 
-  frameById(frameId: String!): FrameResult
+    frameProductionChecksum(route: String!, parameter: FrameParameterInput): FrameChecksumResult
 
-  frameTypes: [FrameTypeResult]
+    frameDsl(route: String!, platform: String!): String
 
-  blockById(frameId: String!, blockId: String!): BlockResult
+    frameSnapshots(route: String!, platform: String!): [FrameSnapshotResult]
 
-  blockByKey(frameId: String!, blockKey: String!): BlockResult
+    release(route: String!, platform: String!): ReleaseResult
 
-  blocks(frameId: String!): [BlockResult]
+    experimentValue(key: String!, parameter: ExperimentParameterInput): ExperimentValueResult
 
-  variables(frameId: String!): [VariableResult]
+    experiment(key: String!, platform: String!): ExperimentResult
 
-  actions(frameId: String!): [ActionResult]
+    experiments: [ExperimentResult]
 
-  actionTriggerById(frameId: String!, actionId: String!, actionTriggerId: String!): ActionTriggerResult
+    segment(segmentId: String!): SegmentResult
 
-  integration(integrationId: String!, organizationId: String!): IntegrationResult
+    segments: [SegmentResult]
 
-  integrations(organizationId: String!, kind: String!, platformSupport: String!, page: Int!, limit: Int!): [IntegrationResult]
+    lambdaCode(route: String!, platform: String!): String
 
-  integrationVersions(organizationId: String!, keyType: String!, platformSupport: String!, page: Int!, limit: Int!): [IntegrationResult]
+    blockById(frameId: String!, blockId: String!): BlockResult
 
-  integrationProperties(integrationId: String!, organizationId: String!): [IntegrationPropertyResult]
+    blocks(frameId: String!): [BlockResult]
 
-  integrationEvents(integrationId: String!, organizationId: String!): [IntegrationEventResult]
+    variables(frameId: String!): [VariableResult]
 
-  integrationData(integrationId: String!, organizationId: String!): [IntegrationDataResult]
+    actions(frameId: String!): [ActionResult]
 
-  integrationSlots(integrationId: String!, organizationId: String!): [IntegrationSlotResult]
+    actionTriggerById(frameId: String!, actionId: String!, actionTriggerId: String!): ActionTriggerResult
 
-  integrationsInstalled(projectId: String!, organizationId: String!, kind: String!): [IntegrationProjectResult]
+    integration(integrationId: String!, organizationId: String!): IntegrationResult
 
-  localizations(languageCode: String): LocalizationResult
+    integrations(organizationId: String!, kind: String!, platformSupport: String!, page: Int!, limit: Int!): [IntegrationResult]
 
-  localizationsProduction(languageCode: String!): LocalizationResult
+    integrationVersions(organizationId: String!, keyType: String!, platformSupport: String!, page: Int!, limit: Int!): [IntegrationResult]
 
-  localizationProductionChecksum(languageCode: String!): LocalizationChecksumResult
+    integrationProperties(integrationId: String!, organizationId: String!): [IntegrationPropertyResult]
 
-  languages: [LanguageResult]
+    integrationEvents(integrationId: String!, organizationId: String!): [IntegrationEventResult]
 
-  availableLanguages: [AvailableLanguageResult]
+    integrationData(integrationId: String!, organizationId: String!): [IntegrationDataResult]
+
+    integrationSlots(integrationId: String!, organizationId: String!): [IntegrationSlotResult]
+
+    integrationsInstalled(projectId: String!, organizationId: String!, kind: String!): [IntegrationProjectResult]
+
+    localizations(languageCode: String): LocalizationResult
+
+    localizationsProduction(languageCode: String!): LocalizationResult
+
+    localizationProductionChecksum(languageCode: String!): LocalizationChecksumResult
+
+    languages: [LanguageResult]
+
+    availableLanguages: [AvailableLanguageResult]
+
+    search(query: String!, limit: Int): SearchResult
+}
+
+input ReleaseConfigInput {
+    direct: DirectReleaseConfigInput
+
+    percentage: PercentageReleaseConfigInput
+
+    conditional: ConditionalReleaseConfigInput
+}
+
+union ReleaseConfigResult = DirectReleaseConfigResult|PercentageReleaseConfigResult|ConditionalReleaseConfigResult
+
+type ReleaseResult {
+    id: String!
+
+    frameId: String!
+
+    type: String!
+
+    platform: String!
+
+    fallbackSnapshotTag: String!
+
+    config: ReleaseConfigResult!
 }
 
 type ScaffoldResult {
-  project: ProjectResult
+    project: ProjectResult
 
-  frames: [FrameShortResult]
+    frames: [FrameShortResult]
+}
+
+type SearchItemParameterResult {
+    key: String!
+
+    value: String!
+}
+
+type SearchItemResult {
+    type: String!
+
+    parameters: [SearchItemParameterResult!]!
+
+    preview: String!
+}
+
+type SearchResult {
+    results: [SearchItemResult!]!
+
+    total: Int!
+}
+
+type SegmentResult {
+    id: String!
+
+    projectId: String!
+
+    name: String!
+
+    description: String
+
+    condition: String!
 }
 
 """
@@ -976,249 +1274,307 @@ The `String`scalar type represents textual data, represented as UTF-8 character 
 scalar String
 
 input SyncFrameInput {
-  route: String!
+    frameDsl: String!
 
-  frameJson: String!
+    platform: String!
 }
 
 input SyncIntegrationDataInput {
-  integrationId: String!
+    integrationId: String!
 
-  organizationId: String!
+    organizationId: String!
 
-  data: [IntegrationDataInput]!
+    data: [IntegrationDataInput]!
 }
 
 input SyncIntegrationEventsInput {
-  integrationId: String!
+    integrationId: String!
 
-  organizationId: String!
+    organizationId: String!
 
-  events: [IntegrationEventInput]!
+    events: [IntegrationEventInput]!
 }
 
 input SyncIntegrationInput {
-  name: String!
+    name: String!
 
-  keyType: String!
+    keyType: String!
 
-  imageIcon: String
+    imageIcon: String
 
-  price: Int!
+    price: Int!
 
-  description: String
+    description: String
 
-  documentation: String
+    documentation: String
 
-  platformSupport: String!
+    platformSupport: String!
 
-  public: Boolean!
+    public: Boolean!
 
-  kind: String!
+    kind: String!
 
-  organizationId: String!
+    organizationId: String!
 
-  version: Int!
+    version: Int!
 
-  versionName: String!
+    versionName: String!
 
-  deprecated: Boolean
+    deprecated: Boolean
 
-  deprecatedReason: String
+    deprecatedReason: String
 }
 
 input SyncIntegrationPropertiesInput {
-  integrationId: String!
+    integrationId: String!
 
-  organizationId: String!
+    organizationId: String!
 
-  properties: [IntegrationPropertyInput]!
+    properties: [IntegrationPropertyInput]!
 }
 
 input SyncIntegrationSlotsInput {
-  integrationId: String!
+    integrationId: String!
 
-  organizationId: String!
+    organizationId: String!
 
-  slots: [IntegrationSlotInput]!
+    slots: [IntegrationSlotInput]!
+}
+
+input SyncSnapshotFrameInput {
+    frameId: String!
+
+    tag: String!
+
+    platform: String!
+}
+
+input TakeSnapshotFrameInput {
+    frameId: String!
+
+    tag: String!
 }
 
 input UnInstallIntegrationInput {
-  integrationId: String!
+    integrationId: String!
 
-  projectId: String!
+    projectId: String!
 
-  organizationId: String!
+    organizationId: String!
 }
 
 input UpdateActionTriggerDataInput {
-  frameId: String!
+    frameId: String!
 
-  actionId: String!
+    actionId: String!
 
-  actionTriggerId: String!
+    actionTriggerId: String!
 
-  data: [ActionTriggerDataInput]!
+    data: [ActionTriggerDataInput]!
 }
 
 input UpdateActionTriggerNameInput {
-  frameId: String!
+    frameId: String!
 
-  actionId: String!
+    actionId: String!
 
-  actionTriggerId: String!
+    actionTriggerId: String!
 
-  name: String!
+    name: String!
 }
 
 input UpdateActionTriggerPositionInput {
-  frameId: String!
+    frameId: String!
 
-  actionId: String!
+    actionId: String!
 
-  actionTriggerId: String!
+    actionTriggerId: String!
 
-  parentId: String!
+    parentId: String!
 
-  then: String!
+    then: String!
 }
 
 input UpdateActionTriggerPropertiesInput {
-  frameId: String!
+    frameId: String!
 
-  actionId: String!
+    actionId: String!
 
-  actionTriggerId: String!
+    actionTriggerId: String!
 
-  properties: [ActionTriggerPropertiesInput]!
+    properties: [ActionTriggerPropertiesInput]!
 }
 
 input UpdateBlockDataInput {
-  frameId: String!
+    frameId: String!
 
-  blockId: String!
+    blockId: String!
 
-  data: [BlockDataInput]!
+    data: [BlockDataInput]!
 }
 
 input UpdateBlockKeyInput {
-  blockId: String!
+    blockId: String!
 
-  key: String!
+    key: String!
 
-  visibilityKey: String!
+    visibilityKey: String!
 
-  frameId: String!
+    frameId: String!
 }
 
 input UpdateBlockPositionInput {
-  blockId: String!
+    blockId: String!
 
-  parentId: String!
+    parentId: String!
 
-  slot: String!
+    slot: String!
 
-  position: Int!
+    position: Int!
 }
 
 input UpdateBlockPropertiesInput {
-  frameId: String!
+    frameId: String!
 
-  blockId: String!
+    blockId: String!
 
-  properties: [BlockPropertyInput]!
+    properties: [BlockPropertyInput]!
 }
 
 input UpdateBlocksPositionInput {
-  frameId: String!
+    frameId: String!
 
-  blocksPosition: [UpdateBlockPositionInput]!
+    blocksPosition: [UpdateBlockPositionInput]!
+}
+
+input UpdateExperimentInput {
+    key: String!
+
+    platform: String!
+
+    type: String!
+
+    fallback: String!
+
+    enable: Boolean!
+
+    config: ExperimentConfigInput!
 }
 
 input UpdateFrameInput {
-  id: String!
+    id: String!
 
-  name: String!
+    name: String!
 
-  type: String!
+    type: String!
 
-  route: String!
+    route: String!
 
-  isStarter: Boolean!
+    platform: String!
 
-  routeArguments: [FrameNavigationArgumentInput]
+    routeArguments: [FrameNavigationArgumentInput]
+}
+
+input UpdateLambdaCodeInput {
+    frameId: String!
+
+    code: String!
+
+    platform: String!
 }
 
 input UpdateLocalizationInput {
-  key: String!
+    key: String!
 
-  languageCode: String!
+    languageCode: String!
 
-  value: String!
+    value: String!
 }
 
 input UpdateProjectInput {
-  id: String!
+    id: String!
 
-  name: String!
+    name: String!
 
-  organizationId: String!
+    organizationId: String!
+}
+
+input UpdateReleaseInput {
+    frameRoute: String!
+
+    type: String!
+
+    fallbackSnapshotTag: String!
+
+    config: ReleaseConfigInput!
+
+    platform: String!
+}
+
+input UpdateSegmentInput {
+    id: String!
+
+    name: String!
+
+    description: String
+
+    condition: String!
 }
 
 input UpdateVariableInput {
-  frameId: String!
+    frameId: String!
 
-  id: String!
+    id: String!
 
-  key: String!
+    key: String!
 
-  value: String!
+    value: String!
 
-  type: String!
+    type: String!
 }
 
 input UpgradeActionTriggerInput {
-  frameId: String!
+    frameId: String!
 
-  actionId: String!
+    actionId: String!
 
-  integrationId: String!
+    integrationId: String!
 
-  actionTriggerId: String!
+    actionTriggerId: String!
 }
 
 input UpgradeBlockInput {
-  frameId: String!
+    frameId: String!
 
-  integrationId: String!
+    integrationId: String!
 
-  blockId: String!
+    blockId: String!
 }
 
 input UpgradeIntegrationInput {
-  integrationId: String!
+    integrationId: String!
 
-  projectId: String!
+    projectId: String!
 
-  organizationId: String!
+    organizationId: String!
 }
 
 type UserResult {
-  id: String
+    id: String
 
-  username: String
+    username: String
 
-  email: String
+    email: String
 }
 
 type VariableResult {
-  id: String
+    id: String
 
-  key: String
+    key: String
 
-  value: String
+    value: String
 
-  type: String
+    type: String
 }
 
 """
@@ -1227,197 +1583,197 @@ A Directive provides a way to describe alternate runtime execution and type vali
 In some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.
 """
 type __Directive {
-  name: String!
+    name: String!
 
-  description: String
+    description: String
 
-  isRepeatable: Boolean!
+    isRepeatable: Boolean!
 
-  locations: [__DirectiveLocation!]!
+    locations: [__DirectiveLocation!]!
 
-  args(includeDeprecated: Boolean = false): [__InputValue!]!
+    args(includeDeprecated: Boolean = false): [__InputValue!]!
 }
 
 """
 A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.
 """
 enum __DirectiveLocation {
-  """
-  Location adjacent to a query operation.
-  """
-  QUERY
+    """
+    Location adjacent to a query operation.
+    """
+    QUERY
 
-  """
-  Location adjacent to a mutation operation.
-  """
-  MUTATION
+    """
+    Location adjacent to a mutation operation.
+    """
+    MUTATION
 
-  """
-  Location adjacent to a subscription operation.
-  """
-  SUBSCRIPTION
+    """
+    Location adjacent to a subscription operation.
+    """
+    SUBSCRIPTION
 
-  """
-  Location adjacent to a field.
-  """
-  FIELD
+    """
+    Location adjacent to a field.
+    """
+    FIELD
 
-  """
-  Location adjacent to a fragment definition.
-  """
-  FRAGMENT_DEFINITION
+    """
+    Location adjacent to a fragment definition.
+    """
+    FRAGMENT_DEFINITION
 
-  """
-  Location adjacent to a fragment spread.
-  """
-  FRAGMENT_SPREAD
+    """
+    Location adjacent to a fragment spread.
+    """
+    FRAGMENT_SPREAD
 
-  """
-  Location adjacent to an inline fragment.
-  """
-  INLINE_FRAGMENT
+    """
+    Location adjacent to an inline fragment.
+    """
+    INLINE_FRAGMENT
 
-  """
-  Location adjacent to a variable definition.
-  """
-  VARIABLE_DEFINITION
+    """
+    Location adjacent to a variable definition.
+    """
+    VARIABLE_DEFINITION
 
-  """
-  Location adjacent to a schema definition.
-  """
-  SCHEMA
+    """
+    Location adjacent to a schema definition.
+    """
+    SCHEMA
 
-  """
-  Location adjacent to a scalar definition.
-  """
-  SCALAR
+    """
+    Location adjacent to a scalar definition.
+    """
+    SCALAR
 
-  """
-  Location adjacent to an object type definition.
-  """
-  OBJECT
+    """
+    Location adjacent to an object type definition.
+    """
+    OBJECT
 
-  """
-  Location adjacent to a field definition.
-  """
-  FIELD_DEFINITION
+    """
+    Location adjacent to a field definition.
+    """
+    FIELD_DEFINITION
 
-  """
-  Location adjacent to an argument definition.
-  """
-  ARGUMENT_DEFINITION
+    """
+    Location adjacent to an argument definition.
+    """
+    ARGUMENT_DEFINITION
 
-  """
-  Location adjacent to an interface definition.
-  """
-  INTERFACE
+    """
+    Location adjacent to an interface definition.
+    """
+    INTERFACE
 
-  """
-  Location adjacent to a union definition.
-  """
-  UNION
+    """
+    Location adjacent to a union definition.
+    """
+    UNION
 
-  """
-  Location adjacent to an enum definition.
-  """
-  ENUM
+    """
+    Location adjacent to an enum definition.
+    """
+    ENUM
 
-  """
-  Location adjacent to an enum value definition.
-  """
-  ENUM_VALUE
+    """
+    Location adjacent to an enum value definition.
+    """
+    ENUM_VALUE
 
-  """
-  Location adjacent to an input object type definition.
-  """
-  INPUT_OBJECT
+    """
+    Location adjacent to an input object type definition.
+    """
+    INPUT_OBJECT
 
-  """
-  Location adjacent to an input object field definition.
-  """
-  INPUT_FIELD_DEFINITION
+    """
+    Location adjacent to an input object field definition.
+    """
+    INPUT_FIELD_DEFINITION
 }
 
 """
 One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.
 """
 type __EnumValue {
-  name: String!
+    name: String!
 
-  description: String
+    description: String
 
-  isDeprecated: Boolean!
+    isDeprecated: Boolean!
 
-  deprecationReason: String
+    deprecationReason: String
 }
 
 """
 Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.
 """
 type __Field {
-  name: String!
+    name: String!
 
-  description: String
+    description: String
 
-  args(includeDeprecated: Boolean = false): [__InputValue!]!
+    args(includeDeprecated: Boolean = false): [__InputValue!]!
 
-  type: __Type!
+    type: __Type!
 
-  isDeprecated: Boolean!
+    isDeprecated: Boolean!
 
-  deprecationReason: String
+    deprecationReason: String
 }
 
 """
 Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
 """
 type __InputValue {
-  name: String!
+    name: String!
 
-  description: String
+    description: String
 
-  type: __Type!
+    type: __Type!
 
-  """
-  A GraphQL-formatted string representing the default value for this input value.
-  """
-  defaultValue: String
+    """
+    A GraphQL-formatted string representing the default value for this input value.
+    """
+    defaultValue: String
 
-  isDeprecated: Boolean!
+    isDeprecated: Boolean!
 
-  deprecationReason: String
+    deprecationReason: String
 }
 
 """
 A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.
 """
 type __Schema {
-  description: String
+    description: String
 
-  """
-  A list of all types supported by this server.
-  """
-  types: [__Type!]!
+    """
+    A list of all types supported by this server.
+    """
+    types: [__Type!]!
 
-  """
-  The type that query operations will be rooted at.
-  """
-  queryType: __Type!
+    """
+    The type that query operations will be rooted at.
+    """
+    queryType: __Type!
 
-  """
-  If this server supports mutation, the type that mutation operations will be rooted at.
-  """
-  mutationType: __Type
+    """
+    If this server supports mutation, the type that mutation operations will be rooted at.
+    """
+    mutationType: __Type
 
-  """
-  If this server support subscription, the type that subscription operations will be rooted at.
-  """
-  subscriptionType: __Type
+    """
+    If this server support subscription, the type that subscription operations will be rooted at.
+    """
+    subscriptionType: __Type
 
-  """
-  A list of all directives supported by this server.
-  """
-  directives: [__Directive!]!
+    """
+    A list of all directives supported by this server.
+    """
+    directives: [__Directive!]!
 }
 
 """
@@ -1426,72 +1782,72 @@ The fundamental unit of any GraphQL Schema is the type. There are many kinds of 
 Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 """
 type __Type {
-  kind: __TypeKind!
+    kind: __TypeKind!
 
-  name: String
+    name: String
 
-  description: String
+    description: String
 
-  specifiedByURL: String
+    specifiedByURL: String
 
-  fields(includeDeprecated: Boolean = false): [__Field!]
+    fields(includeDeprecated: Boolean = false): [__Field!]
 
-  interfaces: [__Type!]
+    interfaces: [__Type!]
 
-  possibleTypes: [__Type!]
+    possibleTypes: [__Type!]
 
-  enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
+    enumValues(includeDeprecated: Boolean = false): [__EnumValue!]
 
-  inputFields(includeDeprecated: Boolean = false): [__InputValue!]
+    inputFields(includeDeprecated: Boolean = false): [__InputValue!]
 
-  ofType: __Type
+    ofType: __Type
 
-  isOneOf: Boolean
+    isOneOf: Boolean
 }
 
 """
 An enum describing what kind of type a given `__Type` is.
 """
 enum __TypeKind {
-  """
-  Indicates this type is a scalar.
-  """
-  SCALAR
+    """
+    Indicates this type is a scalar.
+    """
+    SCALAR
 
-  """
-  Indicates this type is an object. `fields` and `interfaces` are valid fields.
-  """
-  OBJECT
+    """
+    Indicates this type is an object. `fields` and `interfaces` are valid fields.
+    """
+    OBJECT
 
-  """
-  Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields.
-  """
-  INTERFACE
+    """
+    Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields.
+    """
+    INTERFACE
 
-  """
-  Indicates this type is a union. `possibleTypes` is a valid field.
-  """
-  UNION
+    """
+    Indicates this type is a union. `possibleTypes` is a valid field.
+    """
+    UNION
 
-  """
-  Indicates this type is an enum. `enumValues` is a valid field.
-  """
-  ENUM
+    """
+    Indicates this type is an enum. `enumValues` is a valid field.
+    """
+    ENUM
 
-  """
-  Indicates this type is an input object. `inputFields` is a valid field.
-  """
-  INPUT_OBJECT
+    """
+    Indicates this type is an input object. `inputFields` is a valid field.
+    """
+    INPUT_OBJECT
 
-  """
-  Indicates this type is a list. `ofType` is a valid field.
-  """
-  LIST
+    """
+    Indicates this type is a list. `ofType` is a valid field.
+    """
+    LIST
 
-  """
-  Indicates this type is a non-null. `ofType` is a valid field.
-  """
-  NON_NULL
+    """
+    Indicates this type is a non-null. `ofType` is a valid field.
+    """
+    NON_NULL
 }
 
 """
@@ -1525,6 +1881,6 @@ Exposes a URL that specifies the behavior of this scalar.
 directive @specifiedBy ("The URL that specifies the behavior of this scalar." url: String!) on SCALAR
 
 schema {
-  query: Query
-  mutation: Mutation
+    query: Query
+    mutation: Mutation
 }

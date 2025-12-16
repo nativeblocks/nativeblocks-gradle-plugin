@@ -4,70 +4,103 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
-import io.nativeblocks.gradleplugin.integration.IntegrationRepository
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import com.google.devtools.ksp.gradle.KspExtension
+import io.nativeblocks.gradleplugin.tasks.NativeblocksPrepareSchemaTask
+import io.nativeblocks.gradleplugin.tasks.NativeblocksSyncTask
+import kotlinx.serialization.json.Json
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.configurationcache.extensions.capitalized
+import java.io.File
 
 open class NativeblocksGradlePlugin : Plugin<Project> {
 
-    private val name = "nativeblocks"
+    private val json = Json { ignoreUnknownKeys = true; isLenient = true }
 
     override fun apply(project: Project) {
-        val extension = project.extensions.create(name, NativeblocksExtension::class.java)
+        val config = readConfig(project)
+        if (config.endpoint.isEmpty() ||
+            config.authToken.isEmpty() ||
+            config.organizationId.isEmpty()
+        ) {
+            throw GradleException("Please make sure endpoint, authToken and organizationId are provided in nativeblocks.json")
+        }
+
+        project.plugins.withId("com.google.devtools.ksp") {
+            project.afterEvaluate {
+                configureKsp(project)
+            }
+        }
 
         val supportedComponents =
             listOf(project.androidAppComponent(), project.androidLibraryComponent())
         supportedComponents.forEach { component ->
             component?.onVariants { variant ->
                 val flavor = "${variant.flavorName?.capitalized()}${variant.buildType?.capitalized()}"
-                registerTask(project, extension, flavor)
+                registerTask(project, config, flavor)
             }
         }
     }
 
-    private fun registerTask(project: Project, extension: NativeblocksExtension, flavor: String) {
-        project.tasks.register("nativeblocksSync$flavor") {
-            GlobalState.endpoint = extension.endpoint
-            GlobalState.authToken = extension.authToken
-            GlobalState.organizationId = extension.organizationId
-            GlobalState.basePackageName = extension.basePackageName
-            GlobalState.moduleName = extension.moduleName
+    private fun readConfig(project: Project): NativeblocksConfig {
+        val configFile = File(project.rootDir, "nativeblocks.json")
 
-            if (GlobalState.endpoint.isNullOrEmpty() ||
-                GlobalState.authToken.isNullOrEmpty() ||
-                GlobalState.organizationId.isNullOrEmpty()
-            ) {
-                throw GradleException("Please make sure endpoint and authToken and organizationId has been provided correctly")
-            }
+        if (!configFile.exists()) {
+            throw GradleException(
+                """
+                nativeblocks.json not found in project root at: ${configFile.absolutePath}
+                Please create a nativeblocks.json file and get the config from Nativeblocks Studio:
+                {
+                  "endpoint": "https://the-api-url.com",
+                  "authToken": "your-token",
+                  "organizationId": "your-org-id"
+                }
+                """.trimIndent()
+            )
+        }
 
-            if (GlobalState.basePackageName.isNullOrEmpty() ||
-                GlobalState.moduleName.isNullOrEmpty()
-            ) {
-                throw GradleException("Please make sure basePackageName and moduleName has been provided correctly")
-            }
+        return try {
+            json.decodeFromString<NativeblocksConfig>(configFile.readText())
+        } catch (e: Exception) {
+            throw GradleException("Failed to parse nativeblocks.json: ${e.message}", e)
+        }
+    }
 
-            val integrationRepository = IntegrationRepository()
-            runBlocking {
-                integrationRepository.syncIntegration(project, flavor)
+    private fun configureKsp(project: Project) {
+        GlobalState.basePackageName = project.namespace()
+        GlobalState.moduleName = project.name
+
+        project.extensions.findByType(KspExtension::class.java)?.apply {
+            arg("basePackageName", GlobalState.basePackageName ?: "")
+            arg("moduleName", GlobalState.moduleName?.capitalized() ?: "")
+        }
+    }
+
+    private fun registerTask(project: Project, config: NativeblocksConfig, flavor: String) {
+        val shouldBuild = project.hasProperty("nativeblocks.build") &&
+                project.property("nativeblocks.build").toString().toBoolean()
+
+        val assembleTaskName = "assemble$flavor"
+
+        project.tasks.register("nativeblocksSync$flavor", NativeblocksSyncTask::class.java) {
+            it.config.set(config)
+            it.flavor.set(flavor)
+            it.basePackageName.set(project.namespace())
+            it.moduleName.set(project.name)
+        }.also { task ->
+            if (shouldBuild) {
+                task.configure { it.dependsOn(assembleTaskName) }
             }
         }
-        project.tasks.register("nativeblocksPrepareSchema$flavor") {
-            GlobalState.basePackageName = extension.basePackageName
-            GlobalState.moduleName = extension.moduleName
 
-            if (GlobalState.basePackageName.isNullOrEmpty() ||
-                GlobalState.moduleName.isNullOrEmpty()
-            ) {
-                throw GradleException("Please make sure basePackageName and moduleName has been provided correctly")
-            }
-
-            val integrationRepository = IntegrationRepository()
-            runBlocking {
-                integrationRepository.prepareSchema(project, flavor)
+        project.tasks.register("nativeblocksPrepareSchema$flavor", NativeblocksPrepareSchemaTask::class.java) {
+            it.flavor.set(flavor)
+            it.basePackageName.set(project.namespace())
+            it.moduleName.set(project.name)
+        }.also { task ->
+            if (shouldBuild) {
+                task.configure { it.dependsOn(assembleTaskName) }
             }
         }
     }
@@ -79,8 +112,18 @@ private fun Project.androidAppComponent(): ApplicationAndroidComponentsExtension
 private fun Project.androidLibraryComponent(): LibraryAndroidComponentsExtension? =
     extensions.findByType(LibraryAndroidComponentsExtension::class.java)
 
-private fun Project.androidProject(): AppExtension? =
-    extensions.findByType(AppExtension::class.java)
-
-private fun Project.libraryProject(): LibraryExtension? =
-    extensions.findByType(LibraryExtension::class.java)
+private fun Project.namespace(): String? {
+    val androidExtension = project.extensions.findByName("android")
+        ?: throw GradleException("Could not retrieve namespace from Android extension")
+    return when (androidExtension) {
+        is AppExtension -> androidExtension.namespace
+        is LibraryExtension -> androidExtension.namespace
+        else -> {
+            try {
+                androidExtension::class.java.getMethod("getNamespace").invoke(androidExtension) as? String
+            } catch (e: Exception) {
+                throw GradleException("Could not retrieve namespace from Android extension: ${e.message}")
+            }
+        }
+    }
+}
