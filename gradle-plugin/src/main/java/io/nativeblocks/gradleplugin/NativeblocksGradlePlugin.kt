@@ -20,6 +20,12 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         val config = readConfig(project)
+        if (config.endpoint.isEmpty() ||
+            config.authToken.isEmpty() ||
+            config.organizationId.isEmpty()
+        ) {
+            throw GradleException("Please make sure endpoint, authToken and organizationId are provided in nativeblocks.json")
+        }
 
         project.plugins.withId("com.google.devtools.ksp") {
             project.afterEvaluate {
