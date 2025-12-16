@@ -5,7 +5,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
-    id("io.nativeblocks.nativeblocks-gradle-plugin").version("1.1.0")
+    id("io.nativeblocks.nativeblocks-gradle-plugin").version("1.1.3-local-test3")
 }
 
 android {
@@ -41,18 +41,13 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.9"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-}
-
-ksp {
-    arg("basePackageName", "io.nativeblocks.sampleapp")
-    arg("moduleName", "Demo")
 }
 
 val nativeblocksProps = Properties().apply {
@@ -63,8 +58,6 @@ nativeblocks {
     endpoint = nativeblocksProps["endpoint"] as String
     authToken = nativeblocksProps["authToken"] as String
     organizationId = nativeblocksProps["organizationId"] as String
-    basePackageName = "io.nativeblocks.sampleapp"
-    moduleName = "Demo"
 }
 
 dependencies {

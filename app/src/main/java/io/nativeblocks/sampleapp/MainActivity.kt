@@ -8,8 +8,8 @@ import io.nativeblocks.core.api.NativeblocksError
 import io.nativeblocks.core.api.NativeblocksFrame
 import io.nativeblocks.core.api.NativeblocksLoading
 import io.nativeblocks.core.api.NativeblocksManager
-import io.nativeblocks.sampleapp.integration.consumer.action.DemoActionProvider
-import io.nativeblocks.sampleapp.integration.consumer.block.DemoBlockProvider
+import io.nativeblocks.sampleapp.integration.consumer.action.appActionProvider
+import io.nativeblocks.sampleapp.integration.consumer.block.appBlockProvider
 
 private const val NATIVEBLOCKS_API_KEY = ""
 private const val NATIVEBLOCKS_API_URL = "https://us.api.nativeblocks.io/graphql"
@@ -31,8 +31,8 @@ class MainActivity : ComponentActivity() {
             )
         )
 
-        DemoBlockProvider.provideBlocks()
-        DemoActionProvider.provideActions(aIChatBot)
+        appBlockProvider.provideBlocks()
+        appActionProvider.provideActions(aIChatBot)
 
         setContent {
             NativeblocksFrame(
