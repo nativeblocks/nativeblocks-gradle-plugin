@@ -1,11 +1,8 @@
-import org.jetbrains.kotlin.konan.properties.Properties
-import java.io.FileInputStream
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
-    id("io.nativeblocks.nativeblocks-gradle-plugin").version("1.1.3-local-test3")
+    id("io.nativeblocks.nativeblocks-gradle-plugin").version("1.1.3-local-test4")
 }
 
 android {
@@ -48,16 +45,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-}
-
-val nativeblocksProps = Properties().apply {
-    load(FileInputStream(File(rootProject.rootDir, "sample.nativeblocks.properties")))
-}
-
-nativeblocks {
-    endpoint = nativeblocksProps["endpoint"] as String
-    authToken = nativeblocksProps["authToken"] as String
-    organizationId = nativeblocksProps["organizationId"] as String
 }
 
 dependencies {

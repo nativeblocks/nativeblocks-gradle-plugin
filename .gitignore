@@ -19,8 +19,7 @@ secrets.properties
 
 /launcher/nativeblocks-admin/
 
-sample.nativeblocks.properties
-/sample.nativeblocks.properties
+nativeblocks.json
 
 *.gpg
 /*.gpg
