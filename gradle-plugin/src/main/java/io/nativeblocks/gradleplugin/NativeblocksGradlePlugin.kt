@@ -19,14 +19,6 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
     private val json = Json { ignoreUnknownKeys = true; isLenient = true }
 
     override fun apply(project: Project) {
-        val config = readConfig(project)
-        if (config.endpoint.isEmpty() ||
-            config.authToken.isEmpty() ||
-            config.organizationId.isEmpty()
-        ) {
-            throw GradleException("Please make sure endpoint, authToken and organizationId are provided in nativeblocks.json")
-        }
-
         project.plugins.withId("com.google.devtools.ksp") {
             project.afterEvaluate {
                 configureKsp(project)
@@ -38,7 +30,7 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
         supportedComponents.forEach { component ->
             component?.onVariants { variant ->
                 val flavor = "${variant.flavorName?.capitalized()}${variant.buildType?.capitalized()}"
-                registerTask(project, config, flavor)
+                registerTask(project, flavor)
             }
         }
     }
@@ -77,14 +69,14 @@ open class NativeblocksGradlePlugin : Plugin<Project> {
         }
     }
 
-    private fun registerTask(project: Project, config: NativeblocksConfig, flavor: String) {
+    private fun registerTask(project: Project, flavor: String) {
         val shouldBuild = project.hasProperty("nativeblocks.build") &&
                 project.property("nativeblocks.build").toString().toBoolean()
 
         val assembleTaskName = "assemble$flavor"
 
         project.tasks.register("nativeblocksSync$flavor", NativeblocksSyncTask::class.java) {
-            it.config.set(config)
+            it.config.set(readConfig(project))
             it.flavor.set(flavor)
             it.basePackageName.set(project.namespace())
             it.moduleName.set(project.name)
